@@ -255,6 +255,20 @@ function sign(g,text,w,h,x,y,z,color,bg,ry){
   me.position.set(x,y,z); if(ry) me.rotation.y=ry;
   g.add(me); return me;
 }
+/* 宽幅标语牌（东门十二字使命），避免横排文字被拉扁 */
+function signLong(g,text,w,h,x,y,z,color){
+  if(typeof document==='undefined') return null;
+  var cv=document.createElement('canvas'); cv.width=2048; cv.height=160;
+  var c=cv.getContext('2d');
+  c.font='bold 116px "Microsoft YaHei","PingFang SC",sans-serif';
+  c.textAlign='center'; c.textBaseline='middle';
+  c.fillStyle=color||'#d3402f';
+  c.fillText(text,1024,84);
+  var tex=new THREE.CanvasTexture(cv);
+  var m=new THREE.MeshBasicMaterial({map:tex,transparent:true,side:THREE.DoubleSide,depthWrite:false});
+  var me=new THREE.Mesh(new THREE.PlaneGeometry(w,h),m);
+  me.position.set(x,y,z); g.add(me); return me;
+}
 /* 树 */
 function tree(g,x,z,s,kind,y0){
   s=s||1; y0=y0||0;
@@ -356,21 +370,21 @@ function grid(prefix,label,cfg){
 }
 
 /* ---------------- 教学核心区（中部偏北） ---------------- */
-A({id:'main-building',name:'教学主楼（11号楼）',cat:'teaching',pos:[80,0,-120],size:[88,46],h:60,f:13,year:2004,
-  refKey:'main',ref:'refs/教学主楼.jpg',
-  desc:'2004 年竣工，又称 11 号教学楼，建成时为山西省体量最大、层数最高的教学楼。校园图上位于图书馆东侧、中央大道北侧，南面正对行知广场。按官网照片复刻米灰竖向窗肋、中央蓝色玻璃幕墙、楼顶红色校名与悬挑格栅帽檐、白色大雨棚柱廊及宽台阶。',
-  feat:['米灰竖向窗肋','中央蓝玻璃幕墙','楼顶红色校名','悬挑格栅帽檐','大雨棚柱廊','宽台阶']});
-A({id:'library',name:'图书馆',cat:'teaching',pos:[-20,0,-150],size:[120,62],h:28,f:6,year:2006,
-  refKey:'lib1',ref:'refs/图书馆-正面.jpg',
-  desc:'2002 年始建、2006 年竣工，约 4.67 万平方米，华北地区规模最大的高校图书馆之一。校园图上位于教学主楼西侧、田径运动场东北。造型取展开的书卷：左右两个弧形竖肋体量、中部蓝色玻璃中庭、顶部白色空间钢桁架玻璃屋面。',
-  feat:['双弧形书卷体量','深绿玻璃竖缝','蓝色玻璃中庭','钢桁架屋面','黑色石材基座']});
-A({id:'hongxue-12',name:'12号楼（鸿学楼）',cat:'teaching',pos:[-150,0,-160],size:[52,22],h:22,f:6,year:1995,style:'teach-slab',
+A({id:'main-building',name:'教学主楼（11号楼）',cat:'teaching',pos:[60,0,-112],size:[54,38],h:62,f:15,year:2004,
+  refKey:'mainUp',ref:'refs/主楼仰视.jpg',
+  desc:'2004 年竣工，又称 11 号教学楼，建筑面积 49958 ㎡（校档案馆），建成时为山西省体量最大、层数最高的教学楼，矗立于行知广场北侧。按实拍复刻米灰塔楼、密集竖向窄窗、左侧银色外挂圆筒、正面银色金属格栅、顶部悬挑帽檐与红色「中北大学」、白色大雨棚方柱门廊。',
+  feat:['塔式密窄窗立面','银色外挂圆筒','正面银色格栅','悬挑帽檐红字','方柱门廊','蓝玻璃中庭']});
+A({id:'library',name:'图书馆',cat:'teaching',pos:[-35,0,-105],size:[110,50],h:26,f:5,year:2005,
+  refKey:'track',ref:'refs/操场主楼图书馆.jpg',
+  desc:'2005 年竣工，建筑面积 34606.78 ㎡（校档案馆），华北地区规模最大的高校图书馆之一。从田径场向北望，图书馆在左、教学主楼在右，东西并列。造型取展开的书卷：两个米白竖肋弧形体量、深玻璃竖缝、中部蓝色玻璃中庭、顶部白色三角钢桁架挑檐，馆前垂柳成行。',
+  feat:['双弧形书卷体量','米白竖肋+深玻璃','三角钢桁架挑檐','蓝色玻璃中庭','馆前垂柳']});
+A({id:'hongxue-12',name:'12号楼（鸿学楼）',cat:'teaching',pos:[-145,0,-160],size:[52,22],h:22,f:6,year:1995,style:'teach-slab',
   desc:'12 号教学楼，又名鸿学楼，原老图书馆，现为音乐系等单位使用。校园图上在图书馆西侧。',feat:['原老图书馆','古典窗套','中部入口']});
-A({id:'ruixue',name:'瑞学楼',cat:'teaching',pos:[-20,0,-215],size:[56,22],h:20,f:5,year:2000,style:'teach-slab',
+A({id:'ruixue',name:'瑞学楼',cat:'teaching',pos:[-45,0,-205],size:[56,22],h:20,f:5,year:2000,style:'teach-slab',
   desc:'瑞学楼，位于图书馆北侧、9 号实验大楼西侧的教学楼。',feat:['板式教学楼','规则窗格']});
-A({id:'exp-9',name:'9号楼（实验教学楼）',cat:'teaching',pos:[80,0,-205],size:[70,26],h:29,f:7,year:2000,style:'teach-glass',
+A({id:'exp-9',name:'9号楼（实验教学楼）',cat:'teaching',pos:[60,0,-205],size:[70,26],h:29,f:7,year:2000,style:'teach-glass',
   desc:'9 号楼又名实验教学楼，位于 1 号楼正后方，是大学物理等基础实验教学的主要场地。',feat:['实验楼大体量','竖向线条','屋顶设备层']});
-A({id:'huixue-1',name:'1号楼（慧学楼）',cat:'teaching',pos:[160,0,-205],size:[52,20],h:18,f:5,year:1990,style:'teach-slab',
+A({id:'huixue-1',name:'1号楼（慧学楼）',cat:'teaching',pos:[150,0,-190],size:[52,20],h:18,f:5,year:1990,style:'teach-slab',
   desc:'1 号楼又名慧学楼，位于主楼与东区之间中央大道北侧，紧邻旧 1 号楼；多用于小班课与大一工程制图绘图课。',feat:['小班教学楼','规则开间']});
 A({id:'old-1',name:'旧1号楼（J1）',cat:'teaching',pos:[160,0,-170],size:[30,14],h:8,f:2,year:1980,style:'teach-slab',
   desc:'紧邻慧学楼的两层旧教学楼，仅三个教室，是校园里保留的早期教学建筑。',feat:['两层小楼','早期建筑']});
@@ -391,8 +405,8 @@ A({id:'teaching-18',name:'教学楼18号楼',cat:'teaching',pos:[165,0,-185],siz
 A({id:'dehuai-square',name:'德怀广场 · 彭德怀骑马铜像',cat:'landmark',pos:[-200,0,235],size:[76,76],h:12,year:2010,
   desc:'校园图上位于西南角一道门内侧，圆形广场中央为 2010 年落成的 7.6 米「横刀立马」彭德怀骑马青铜塑像，四角由 7 号楼德怀楼的四翼环抱。',
   feat:['圆形广场','骑马铜像','四翼环抱','一道门对景']});
-A({id:'dehuai-building',name:'德怀楼（7号楼·四翼）',cat:'teaching',pos:[-200,0,235],size:[112,96],h:22,f:6,year:1990,
-  refKey:'dehuai',ref:'refs/德怀楼.jpg',
+A({id:'dehuai-building',name:'德怀楼（7号楼）',cat:'teaching',pos:[-200,0,235],size:[82,30],h:36,f:10,year:1990,
+  refKey:'south',ref:'refs/南门.jpg',
   desc:'以彭德怀元帅命名的 7 号楼，校园图上呈四翼环绕德怀广场的布局。官网照片显示主楼为白色高层、中央黑色玻璃竖带、左侧横向带窗翼楼与低层裙房。',
   feat:['四翼围合广场','白色高层','中央黑玻璃竖带','横窗翼楼','低层裙房']});
 A({id:'gongzi-2',name:'2号楼（工字楼）',cat:'teaching',pos:[-215,0,110],size:[48,26],h:16,f:4,year:1980,style:'teach-slab',
@@ -442,7 +456,7 @@ A({id:'campus-street',name:'小吃街（一道门—七道门）',cat:'life',pos
   feat:['连续商铺','一层店招','骑楼雨棚']});
 
 /* ---------------- 中部：广场 / 体育场 ---------------- */
-A({id:'xingzhi-square',name:'行知广场',cat:'landmark',pos:[80,0,-35],size:[86,58],h:16,year:2004,
+A({id:'xingzhi-square',name:'行知广场',cat:'landmark',pos:[60,0,-35],size:[86,58],h:16,year:2004,
   desc:'教学主楼前侧的核心广场，校园图上标为迎新广场，中央有大星形铺装；文艺演出、社团招新常在此举行，南侧设跨越铁路的地下通道。',
   feat:['主楼前广场','星形铺装','国旗杆','阶梯花坛','地下通道口']});
 A({id:'stadium',name:'真草坪体育场（田径运动场）',cat:'sport',pos:[-110,0,-30],size:[168,104],h:12,year:2000,
@@ -455,7 +469,7 @@ A({id:'swimming',name:'游泳馆 / 健身馆',cat:'sport',pos:[10,0,-250],size:[
   refKey:'swim',ref:'refs/游泳馆.jpg',
   desc:'游泳是中北学子的必修课。官网照片显示馆内为拱形钢桁架屋面下的标准泳池，外部为大跨度拱顶建筑。',
   feat:['拱形钢桁架','大跨空间','标准泳池']});
-A({id:'basketball',name:'篮球场群',cat:'sport',pos:[-25,0,-75],size:[74,52],h:9,year:2005,
+A({id:'basketball',name:'篮球场群',cat:'sport',pos:[5,0,-58],size:[74,52],h:9,year:2005,
   desc:'校园图位于体育馆东侧、行知广场西侧的多片篮球场，含场地划线、篮架与围网。',feat:['多片场地','篮架','围网']});
 A({id:'football-north',name:'北区足球场',cat:'sport',pos:[255,0,-230],size:[100,64],h:6,year:2005,style:'football',
   desc:'校园东北部的足球场与排球场，位于科学楼与兵器陈列馆之间。',feat:['足球场','排球场','围网']});
@@ -522,15 +536,16 @@ A({id:'underground-pass',name:'铁路地下通道',cat:'landmark',pos:[80,0,105]
   desc:'行知广场南侧跨越铁路的地下通道，连接铁路南北两侧的教学区与生活区。',feat:['地下通道口','台阶','雨棚']});
 
 /* ---------------- 园林与历史建筑 ---------------- */
-A({id:'red-houses',name:'红房子（老建筑群）',cat:'landscape',pos:[-120,0,-60],size:[72,46],h:12,f:2,year:1955,
+A({id:'red-houses',name:'红房子（老建筑群）',cat:'landscape',pos:[-190,0,-100],size:[72,46],h:12,f:2,year:1955,
   desc:'建于二十世纪五六十年代的红砖建筑群，见证从太原机械学院、华北工学院到中北大学的校史变迁。',feat:['红砖墙','灰瓦坡顶','低层院落']});
-A({id:'gezilou',name:'阁子楼',cat:'landscape',pos:[-185,0,-30],size:[44,22],h:13,f:2,year:1950,
+A({id:'gezilou',name:'阁子楼',cat:'landscape',pos:[-215,0,-20],size:[44,22],h:13,f:2,year:1950,
   refKey:'gezi',ref:'refs/阁子楼.jpg',
   desc:'学校最老的一批建筑之一。官网照片为两栋对称的红砖两层小楼，各带三角山墙与白色窗框，楼前是牡丹花圃。',
   feat:['对称双楼','红砖','三角山墙','白窗框','牡丹花圃']});
 
 /* ---------------- 七道门与出入口 ---------------- */
-A({id:'south-gate',name:'一道门（正门）',cat:'landmark',pos:[-200,0,290],size:[34,8],h:12,year:2000,style:'gate-main',
+A({id:'south-gate',name:'一道门（南门 · 校名石广场）',cat:'landmark',pos:[-200,0,290],size:[40,14],h:9,year:2000,style:'gate-south',
+  refKey:'south',ref:'refs/南门.jpg',
   desc:'中北大学一道门为学校正大门，位于校园西南、正对德怀楼与德怀广场，门外有 835 路公交站。',feat:['双门柱','横梁校名','校名石','门区铺装']});
 A({id:'gate-2',name:'二道门',cat:'landmark',pos:[-140,0,100],size:[20,6],h:8,year:1990,style:'gate-small',
   desc:'二道门是十字路口，毗邻五院宿舍与小吃街最西端，也是去逸夫楼的途径之一；过铁路后向北分叉通往西侧宿舍区。',feat:['路口门','铁路道口']});
@@ -544,12 +559,28 @@ A({id:'gate-6',name:'六道门',cat:'landmark',pos:[250,0,70],size:[20,6],h:8,ye
   desc:'六道门，位于小吃街东端、东环路附近。',feat:['东部门户']});
 A({id:'gate-7',name:'七道门',cat:'landmark',pos:[305,0,55],size:[20,6],h:8,year:1990,style:'gate-small',
   desc:'七道门与兰村相连，2024 年学校曾实施「七道门恢复和一道门改造」工程。',feat:['兰村方向','东部门户']});
-A({id:'east-gate',name:'东大门',cat:'landmark',pos:[325,0,-170],size:[26,8],h:9,year:2010,style:'gate-main',
+A({id:'east-gate',name:'东门（门式连体楼）',cat:'landmark',pos:[325,0,-170],size:[120,34],h:30,f:6,year:2015,style:'gate-east',
+  refKey:'east',ref:'refs/东门.jpg',
   desc:'校园东侧主出入口，校园图上标注门高 6.65 米，设有车辆管理设施。',feat:['东侧主门','门区广场','车辆通道']});
 A({id:'gate-8',name:'八道门（应急出口）',cat:'landmark',pos:[320,0,-275],size:[16,6],h:7,year:2010,style:'gate-small',
   desc:'校园东北侧的应急出口。',feat:['应急出口']});
 A({id:'gate-9',name:'九道门（应急出口）',cat:'landmark',pos:[-300,0,-265],size:[16,6],h:7,year:2010,style:'gate-small',
   desc:'校园西北侧、二龙山北端的应急出口。',feat:['应急出口']});
+
+
+/* ---------------- 实拍补充：航空宇航学院与歼击机陈列 ---------------- */
+A({id:'aerospace-college',name:'航空宇航学院',cat:'teaching',pos:[210,0,-40],size:[64,30],h:20,f:4,year:2015,
+  refKey:'aero',ref:'refs/航空宇航学院.jpg',style:'aerospace',
+  desc:'航空宇航学院楼，赓续学校导弹设计、火箭发动机与飞行器制造等国防学科。实拍显示上部为白色框架格栅与采光天窗，中段密集白色竖肋窗格，黑色石材横带上为金色「航空宇航学院」字样，底层是凹入的蓝色玻璃入口大厅；楼前广场陈列一架退役歼-6 超音速歼击机（编号 51686）。',
+  feat:['白色框架格栅顶','密集竖肋窗','黑石材金字横带','凹入玻璃入口','门前歼击机','围栏草坪']});
+A({id:'jet-fighter',name:'歼-6 歼击机陈列',cat:'landmark',pos:[210,0,-14],size:[17,11],h:5,year:0,
+  refKey:'aero',ref:'refs/航空宇航学院.jpg',style:'jet',
+  desc:'摆在航空宇航学院楼前广场的退役歼-6 真机，是我国第一款超音速歼击机（仿米格-19），机身银色、编号 51686，配红色围栏与说明牌，是校园国防教育的标志性展品。',
+  feat:['银色机身','后掠三角翼','高尾翼','编号51686','红色围栏']});
+A({id:'east-slogan',name:'东门「为党育人 为国育才 为军铸器」',cat:'landmark',pos:[325,0,-135],size:[54,4],h:4,year:2020,
+  refKey:'east',ref:'refs/东门.jpg',style:'slogan',
+  desc:'东门门楼前广场上的红色立体大字，凝练学校「人民兵工第一校」的办学使命：为党育人、为国育才、为军铸器。',
+  feat:['红色立体字','十二字标语','深色石材广场']});
 
 /* ---------------- 配套构件 ---------------- */
 A({id:'street-lamp',name:'校园路灯',cat:'props',pos:[0,0,0],size:[3,1],h:7,style:'lamp',
@@ -564,149 +595,188 @@ A({id:'flagpole',name:'国旗杆',cat:'props',pos:[0,0,0],size:[1,1],h:16,style:
  * ============================================================ */
 
 /* ---------- 教学主楼（11号教学楼） ---------- */
+/* ---------- 教学主楼（11号楼）：按篮球场仰视实拍 + 官网正面照重建 ---------- */
 function buildMainBuilding(){
   var g=new THREE.Group(); g.name='NUC_main-building';
-  var w=82,d=26,base=1.0,floors=13,fh=4.0,h=floors*fh;
+  var w=54,d=38,base=1.0,floors=15,fh=4.0,h=floors*fh;   /* 60m 塔式 */
+  var wall=M(0xd2cdbf,0.92), rib=M(0xe6e1d4,0.88),
+      silver=M(0xb9c2c6,0.35,0.6), grille=M(0xc8d0d0,0.4,0.55),
+      darkGlass=M(0x243a48,0.16,0.45,{side:THREE.DoubleSide});
 
-  /* 主体 + 深色竖窗底衬 */
-  box(g,w,h,d,0,h/2+base,0,MAT.wall);
-  box(g,w+0.8,base,d+0.8,0,base/2,0,MAT.darkBase);
-  box(g,w-0.4,h-2,0.18,0,h/2+base,d/2+0.10,MAT.glass,{cast:false});
-  box(g,w-0.4,h-2,0.18,0,h/2+base,-d/2-0.10,MAT.glass,{cast:false});
+  /* 主体 */
+  box(g,w,h,d,0,h/2+base,0,wall);
+  box(g,w+1.2,base,d+1.2,0,base/2,0,MAT.darkBase);
 
-  /* 中央蓝色玻璃幕墙（照片核心特征） */
-  var cw=26,ch=40;
-  box(g,cw,ch,0.5,0,ch/2+9,d/2+0.35,MAT.glassBlue,{cast:false});
-  box(g,cw,ch,0.5,0,ch/2+9,-d/2-0.35,MAT.glassBlue,{cast:false});
-  for(var i=1;i<9;i++){
-    box(g,cw,0.16,0.12,0,9+i*(ch/9),d/2+0.63,MAT.steel,{cast:false});
-    box(g,cw,0.16,0.12,0,9+i*(ch/9),-d/2-0.63,MAT.steel,{cast:false});
-  }
-  for(var j=1;j<7;j++){
-    box(g,0.16,ch,0.12,-cw/2+j*(cw/7),ch/2+9,d/2+0.63,MAT.steel,{cast:false});
-  }
+  /* 密集竖向窄窗（塔楼立面的核心特征） */
+  var qb=new QB();
+  ['front','back','left','right'].forEach(function(face){
+    var cols=(face==='front'||face==='back')?14:11;
+    gridWindows(qb,{face:face,w:w,d:d,y0:base+1.3,floors:floors,floorH:fh,
+      cols:cols,winW:1.15,winH:2.1,lift:0.10,
+      skip:function(f,c){
+        if(face!=='front') return false;
+        /* 正面中央留给银色格栅与蓝玻璃中庭 */
+        return c>=5&&c<=8;
+      }});
+  });
+  var wm=qb.mesh(darkGlass); if(wm) g.add(wm);
 
-  /* 两侧米白色竖向窗肋 */
-  var rib;
-  for(var x=-w/2+1.6;x<=w/2-1.6;x+=3.05){
-    if(Math.abs(x)<cw/2+0.6) continue;
+  /* 米白竖向窗肋（贯穿全高） */
+  var step=3.5;
+  for(var x=-w/2+1.6;x<=w/2-1.6;x+=step){
     for(var s=-1;s<=1;s+=2){
-      rib=box(g,0.62,h-1.2,0.85,x,h/2+base,s*(d/2+0.32),MAT.wallWhite);
+      if(s===1 && Math.abs(x)<11) continue;   /* 正面中央让位 */
+      box(g,0.42,h-1.5,0.55,x,h/2+base,s*(d/2+0.28),rib,{cast:false});
     }
   }
-  /* 侧面同样是竖向窗肋 + 深玻璃底衬，与正立面呼应 */
-  for(var sx2=-1;sx2<=1;sx2+=2){
-    box(g,0.18,h-2,d-0.5,sx2*(w/2+0.12),h/2+base,0,MAT.glass,{cast:false});
-    for(var sz=-d/2+1.6;sz<=d/2-1.6;sz+=3.0){
-      box(g,0.85,h-1.2,0.62,sx2*(w/2+0.34),h/2+base,sz,MAT.wallWhite);
-    }
+  for(var z=-d/2+1.6;z<=d/2-1.6;z+=step){
+    for(var sx=-1;sx<=1;sx+=2)
+      box(g,0.55,h-1.5,0.42,sx*(w/2+0.28),h/2+base,z,rib,{cast:false});
   }
-  /* 前后立面细腰线 */
-  for(var f2=1;f2<floors;f2++) box(g,w+0.2,0.12,0.12,0,base+f2*fh,d/2+0.7,MAT.wallWhite,{cast:false});
+  /* 每层细腰线 */
+  for(var f2=1;f2<floors;f2++)
+    box(g,w+0.5,0.12,d+0.5,0,base+f2*fh,0,MAT.wallWhite,{cast:false});
 
-  /* 顶部悬挑帽檐 + 格栅 */
-  box(g,w+7,1.8,d+9,0,h+base+1.6,0,MAT.wallWhite);
-  box(g,w+7,0.5,1.0,0,h+base+0.55,(d+9)/2,MAT.darkBase,{cast:false});
-  for(var k=0;k<30;k++){
-    var gx=-w/2-2+k*((w+4)/29);
-    box(g,0.55,0.9,1.1,gx,h+base+2.9,(d+9)/2-1.1,MAT.darkBase,{cast:false});
+  /* 左侧银色外挂圆筒（观景/设备筒，照片最醒目细节） */
+  var tubeX=-w/2-0.9, tubeZ=d/2+2.2;
+  cyl(g,1.75,1.75,h-3,18,tubeX,(h-3)/2+base+1.5,tubeZ,silver);
+  for(var band=0;band<9;band++)
+    cyl(g,1.95,1.95,0.35,18,tubeX,base+4+band*6.4,tubeZ,M(0xe4ecec,0.3,0.65));
+  cyl(g,2.1,2.1,0.6,18,tubeX,base+1.2,tubeZ,MAT.darkBase);
+
+  /* 正面中央：下部银色金属格栅 + 上部蓝色玻璃中庭 */
+  box(g,13,19,0.55,0,20.5,d/2+0.35,grille,{cast:false});
+  for(var gr=0;gr<7;gr++) for(var gc=0;gc<4;gc++){
+    var gx=-5.2+gc*3.5, gy=12.2+gr*2.55;
+    box(g,3.0,2.1,0.16,gx,gy,d/2+0.66,M(0x9aa8ac,0.4,0.5),{cast:false});
+    cone(g,0.42,0.7,gx,gy+1.25,d/2+0.78,M(0xdfe6e6,0.4,0.5),3);
   }
-  /* 楼顶红色校名 */
-  sign(g,'中北大学',28,7.0,0,h+base+5.2,(d+9)/2-1.8,'#b83a2f');
+  box(g,17,25,0.5,0,45.5,d/2+0.32,MAT.glassBlue,{cast:false});
+  for(var vv=0;vv<6;vv++) box(g,0.24,25,0.2,-8+vv*3.2,45.5,d/2+0.62,MAT.steel,{cast:false});
+  for(var hh=0;hh<5;hh++) box(g,17,0.22,0.2,0,34+hh*5,d/2+0.62,MAT.steel,{cast:false});
 
-  /* 白色大雨棚 + 柱廊 */
-  box(g,48,2.4,11,0,9.2,d/2+5,MAT.wallWhite);
-  box(g,48,0.5,11.4,0,10.65,d/2+5,MAT.steel,{cast:false});
-  for(var p=0;p<7;p++){
-    var px=-20+p*(40/6);
-    cyl(g,0.85,0.9,8.2,12,px,4.1,d/2+9,MAT.wallWhite);
-    box(g,2.5,0.45,2.5,px,8.4,d/2+9,MAT.wallWhite,{cast:false});
+  /* 顶部悬挑帽檐 + 前沿格栅 + 红色校名 */
+  box(g,w+9,1.9,d+10,0,h+base+1.8,0,MAT.wallWhite);
+  box(g,w+9,0.55,1.1,0,h+base+0.7,(d+10)/2,MAT.darkBase,{cast:false});
+  for(var k=0;k<22;k++){
+    var gx2=-w/2-3+k*((w+6)/21);
+    box(g,0.5,1.0,1.2,gx2,h+base+3.0,(d+10)/2-1.2,MAT.darkBase,{cast:false});
   }
-  /* 入口门洞 */
-  box(g,20,6.5,0.3,0,4.2,d/2+0.2,MAT.glass,{cast:false});
-  for(var q=0;q<7;q++) box(g,0.2,6.5,0.4,-10+q*(20/6),4.2,d/2+0.45,MAT.steel,{cast:false});
+  box(g,w+11,0.5,d+12,0,h+base+3.6,0,M(0xb9b6ac,0.8));
+  sign(g,'中 北',13,3.3,-17,h+base+6.0,(d+10)/2-1.4,'#c03224');
+  sign(g,'大 学',13,3.3, 17,h+base+6.0,(d+10)/2-1.4,'#c03224');
 
-  /* 宽台阶 */
-  stairs(g,50,9,9,0,d/2+15,MAT.plaza,0.3);
-  /* 阶梯花坛（照片前两侧） */
+  /* 白色大雨棚 + 方柱门廊 */
+  box(g,32,2.4,11,0,9.4,d/2+5,MAT.wallWhite);
+  box(g,32,0.5,11.4,0,10.85,d/2+5,MAT.steel,{cast:false});
+  for(var p=0;p<6;p++){
+    var px=-13+p*(26/5);
+    box(g,1.5,8.4,1.5,px,4.2,d/2+9,MAT.wallWhite);
+    box(g,2.3,0.4,2.3,px,8.6,d/2+9,MAT.wallWhite,{cast:false});
+  }
+  box(g,16,6.2,0.3,0,4.1,d/2+0.25,MAT.glass,{cast:false});
+  for(var q=0;q<5;q++) box(g,0.2,6.2,0.4,-8+q*4,4.1,d/2+0.5,MAT.steel,{cast:false});
+  stairs(g,34,9,9,0,d/2+15,MAT.plaza,0.3);
+
+  /* 右侧低配楼 */
+  box(g,26,17,24,40,8.5,-5,MAT.wallWarm);
+  box(g,26.4,0.8,24.4,40,17.4,-5,MAT.roof,{cast:false});
+  var qb2=new QB();
+  gridWindows(qb2,{face:'front',w:26,d:24,y0:2.2,floors:4,floorH:3.8,cols:7,winW:2.2,winH:2.2,lift:0.12});
+  var wm2=qb2.mesh(MAT.glass); if(wm2){ wm2.position.set(40,0,-5); g.add(wm2); }
+
+  /* 阶梯花坛、护栏、前广场 */
   for(var sd=-1;sd<=1;sd+=2){
     for(var st=0;st<3;st++){
-      var bw=11-st*1.4;
-      box(g,bw,0.55,4.4,sd*(33+st*1.2),0.28+st*0.28,d/2+13+st*2.6,MAT.plaza,{cast:false});
-      box(g,bw-0.7,0.12,3.7,sd*(33+st*1.2),0.6+st*0.28,d/2+13+st*2.6,MAT.grass,{cast:false});
+      var bw=10-st*1.3;
+      box(g,bw,0.55,4.2,sd*(22+st*1.1),0.28+st*0.28,d/2+13+st*2.5,MAT.plaza,{cast:false});
+      box(g,bw-0.7,0.12,3.5,sd*(22+st*1.1),0.6+st*0.28,d/2+13+st*2.5,MAT.grass,{cast:false});
     }
   }
-  /* 平台铺装 */
-  flat(g,w+30,42,0,0.03,d/2+12,MAT.plaza);
+  for(var rail=0;rail<14;rail++){
+    var rx=-26+rail*4;
+    cyl(g,0.07,0.07,1.1,6,rx,0.55,d/2+22,MAT.metal,{cast:false});
+  }
+  box(g,56,0.09,0.12,0,1.1,d/2+22,MAT.metal,{cast:false});
+  flat(g,w+34,44,0,0.03,d/2+13,MAT.plaza);
   return g;
 }
 
 /* ---------- 图书馆：双弧形书卷 + 钢桁架屋面 ---------- */
+/* ---------- 图书馆：按田径场实拍 + 基建部官方照片重建 ---------- */
 function buildLibrary(){
   var g=new THREE.Group(); g.name='NUC_library';
-  var wingW=46,wingD=40,wingH=21,base=2.2;
-  var centers=[-36,36];
+  var wingW=48,wingD=44,wingH=22,base=2.2;
+  var centers=[-31,31];
+  var cream=M(0xcac3b1,0.9), deep=M(0x10191b,0.15,0.4,{side:THREE.DoubleSide}),
+      steelW=M(0xe9ece8,0.4,0.5);
 
-  /* 黑色石材基座 */
-  box(g,118,base,50,0,base/2,0,MAT.darkBase);
-  box(g,120,0.5,52,0,0.25,0,MAT.darkBase2,{cast:false});
+  box(g,112,base,48,0,base/2,0,MAT.darkBase);
+  box(g,114,0.5,50,0,0.25,0,MAT.darkBase2,{cast:false});
 
-  centers.forEach(function(cx,wi){
-    /* 弧形体量：沿弧线排列的竖向书页肋 + 深绿玻璃间隔 */
+  centers.forEach(function(cx){
     var N=20;
     for(var i=0;i<N;i++){
       var t=(i/(N-1))*2-1;
       var x=cx+t*(wingW/2);
-      var bulge=9.5*Math.cos(t*Math.PI/2);
+      var bulge=8.6*Math.cos(t*Math.PI/2);
       var z=bulge;
-      var ry=-t*0.17;
-      /* 深绿玻璃窗带（在竖肋之后，露出书页间的暗色竖缝） */
-      box(g,1.85,wingH-1.4,0.22,x+1.16,wingH/2+base,z+wingD/2-1.55,MAT.glassGreen,{ry:ry,cast:false});
-      /* 米白书页竖肋（薄叶片，避免旋转后互相遮挡） */
-      box(g,0.82,wingH,1.35,x,wingH/2+base,z+wingD/2-0.55,MAT.wallStone,{ry:ry});
+      var ry=-t*0.15;
+      /* 米白书页竖肋（略微外倾） */
+      box(g,0.92,wingH,2.9,x,wingH/2+base,z+wingD/2-0.5,cream,{ry:ry,rz:-t*0.018});
+      /* 肋间近黑玻璃竖缝 */
+      box(g,1.85,wingH-1.2,0.22,x+1.18,wingH/2+base,z+wingD/2-1.9,deep,{ry:ry,cast:false});
     }
-    /* 背部实墙与两端封板 */
-    box(g,wingW+2,wingH,1.2,cx,wingH/2+base,-wingD/2+0.4,MAT.wallStone);
-    for(var e=-1;e<=1;e+=2){
-      box(g,1.4,wingH,wingD,cx+e*(wingW/2+0.7),wingH/2+base,0,MAT.wallStone);
-    }
-    /* 顶部白色空间钢桁架玻璃屋面 */
-    var roofY=wingH+base+1.2;
-    box(g,wingW+4,0.35,wingD+5,cx,roofY+1.4,0,MAT.glassLite,{cast:false});
+    /* 两端封板与背墙 */
+    box(g,wingW+2,wingH,1.2,cx,wingH/2+base,-wingD/2+0.4,cream);
+    for(var e=-1;e<=1;e+=2)
+      box(g,1.4,wingH,wingD*0.42,cx+e*(wingW/2+0.7),wingH/2+base,-wingD*0.29,cream);
+    /* 白色三角钢桁架挑檐 */
+    var roofY=wingH+base+1.0;
+    box(g,wingW+5,0.12,wingD+7,cx,roofY+1.6,0,M(0xdfe9e8,0.2,0.1,{transparent:true,opacity:0.18}),{cast:false});
     for(var r=0;r<10;r++){
       var rx=cx-wingW/2+r*(wingW/9);
-      box(g,0.22,0.3,wingD+5,rx,roofY+1.65,0,MAT.steel,{cast:false});
+      box(g,0.2,0.26,wingD+7,rx,roofY+1.85,0,steelW,{cast:false});
     }
     for(var s=0;s<7;s++){
       var rz=-wingD/2+s*(wingD/6);
-      box(g,wingW+4,0.22,0.22,cx,roofY+1.9,rz,MAT.steel,{cast:false});
-      /* 斜腹杆 */
-      box(g,wingW+3,0.16,0.16,cx,roofY+0.7,rz,MAT.steel,{rz:0.13,cast:false});
+      box(g,wingW+5,0.2,0.2,cx,roofY+2.05,rz,steelW,{cast:false});
+      /* 三角斜腹杆 */
+      box(g,wingW+4,0.16,0.16,cx,roofY+0.85,rz,steelW,{rz:0.22,cast:false});
+      box(g,wingW+4,0.16,0.16,cx,roofY+0.85,rz+1.2,steelW,{rz:-0.22,cast:false});
     }
-    /* 侧墙横向窗带 */
+    /* 背立面窗格 */
     var qb=new QB();
-    gridWindows(qb,{face:'back',w:wingW,d:wingD,y0:base+3,floors:5,floorH:3.5,cols:9,winW:3.1,winH:2.0,lift:0.65});
+    gridWindows(qb,{face:'back',w:wingW,d:wingD,y0:base+3,floors:5,floorH:3.5,cols:9,winW:3.0,winH:2.0,lift:0.65});
     var wm=qb.mesh(MAT.glass);
     if(wm){ wm.position.x=cx; g.add(wm); }
   });
 
   /* 中部蓝色玻璃中庭 */
-  box(g,25,20,34,0,12,-1,MAT.glassBlue,{cast:false});
-  for(var v=0;v<9;v++){
-    box(g,0.22,20,0.4,-12+v*3,12,16.2,MAT.steel,{cast:false});
-  }
-  for(var hh=1;hh<6;hh++) box(g,25,0.18,0.4,0,2+hh*3.3,16.2,MAT.steel,{cast:false});
-  box(g,27,1.2,36,0,22.4,-1,MAT.steel);
+  box(g,22,20,34,0,12,-1,MAT.glassBlue,{cast:false});
+  for(var v=0;v<8;v++) box(g,0.22,20,0.4,-10+v*2.9,12,16.2,MAT.steel,{cast:false});
+  for(var hh=1;hh<6;hh++) box(g,22,0.18,0.4,0,2+hh*3.3,16.2,MAT.steel,{cast:false});
+  box(g,24,1.2,36,0,22.4,-1,MAT.steel);
 
-  /* 入口：雨棚、招牌、台阶 */
-  box(g,22,1.4,8,0,7.2,22,MAT.wallWhite);
+  /* 入口 */
+  box(g,20,1.4,8,0,7.2,22,MAT.wallWhite);
   for(var pc=0;pc<6;pc++) cyl(g,0.5,0.55,6.0,10,-9+pc*3.6,3.0,25.2,MAT.wallWhite);
-  box(g,14,5.5,0.4,0,3.6,20.2,MAT.glass,{cast:false});
-  sign(g,'图书馆',11,2.6,0,8.3,26.05,'#8a2f24');
-  stairs(g,30,8,8,0,29,MAT.plaza,0.28);
-  /* 前广场与前池 */
-  flat(g,120,48,0,0.02,34,MAT.plaza);
-  box(g,26,0.3,9,0,0.16,38,MAT.water,{cast:false});
+  box(g,13,5.5,0.4,0,3.6,20.2,MAT.glass,{cast:false});
+  sign(g,'图书馆',10,2.5,0,8.3,26.05,'#8a2f24');
+  stairs(g,28,8,8,0,29,MAT.plaza,0.28);
+  flat(g,116,46,0,0.02,34,MAT.plaza);
+
+  /* 馆前垂柳（田径场照片里的显著景观） */
+  for(var wi=0;wi<7;wi++){
+    var wx=-46+wi*15, wz=42+(wi%2)*4;
+    cyl(g,0.4,0.55,6.5,8,wx,3.25,wz,MAT.treeTrunk);
+    for(var br=0;br<9;br++){
+      var a=br*Math.PI*2/9, rr=2.6;
+      var bx=wx+Math.cos(a)*rr, bz=wz+Math.sin(a)*rr;
+      box(g,0.12,4.2,0.12,bx,5.2,bz,M(0x6f9a4a,1),{rz:Math.cos(a)*0.16,cast:false});
+      box(g,0.12,3.0,0.12,bx+Math.cos(a)*0.7,3.6,bz+Math.sin(a)*0.7,M(0x5d8a3e,1),{rz:Math.cos(a)*0.2,cast:false});
+    }
+  }
   return g;
 }
 
@@ -1721,38 +1791,46 @@ function buildAdvanced(d){
 }
 
 /* ---------- 德怀楼四翼（按官网照片：白楼 + 黑玻璃竖带 + 横窗翼楼） ---------- */
+/* ---------- 德怀楼：按南门实拍（折线两翼 + 中央黑玻璃竖带 + 圆塔） ---------- */
 function buildDehuaiWings(d){
   var g=new THREE.Group(); g.name='NUC_dehuai-building';
-  /* 四翼环抱德怀广场，中心留空 */
-  var wings=[[-42,-34,44,16,6],[42,-34,44,16,6],[-42,34,44,16,5],[42,34,44,16,5]];
-  wings.forEach(function(wg,i){
-    var sub=new THREE.Group(); sub.position.set(wg[0],0,wg[1]); g.add(sub);
-    var w=wg[2],dp=wg[3],floors=wg[4],fh=3.6,h=floors*fh;
-    box(sub,w,h,dp,0,h/2+0.6,0,MAT2.white);
-    box(sub,w+0.8,0.6,dp+0.8,0,0.3,0,MAT.stone);
+  var cream=M(0xded8c9,0.92), dark=M(0x1e2628,0.18,0.45,{side:THREE.DoubleSide});
+  var h=36,floors=10,fh=3.5;
+  /* 两翼略折，形成环抱广场的弧形轮廓 */
+  [[-1,-0.10],[1,0.10]].forEach(function(wg){
+    var sub=new THREE.Group();
+    sub.position.set(wg[0]*23,0,wg[1]*10);
+    sub.rotation.y=wg[1]*1.1;
+    g.add(sub);
+    box(sub,36,h,20,0,h/2+0.6,0,cream);
+    box(sub,37,0.6,21,0,0.3,0,MAT.stone);
     var qb=new QB();
-    ['front','back'].forEach(function(face){
-      gridWindows(qb,{face:face,w:w,d:dp,y0:1.5,floors:floors,floorH:fh,cols:11,winW:2.4,winH:2.0,lift:0.08});
-    });
+    gridWindows(qb,{face:'front',w:36,d:20,y0:1.8,floors:floors,floorH:fh,cols:9,winW:2.3,winH:2.1,lift:0.09});
+    gridWindows(qb,{face:'back',w:36,d:20,y0:1.8,floors:floors,floorH:fh,cols:9,winW:2.3,winH:2.1,lift:0.09});
     var wm=qb.mesh(MAT.glass); if(wm) sub.add(wm);
-    box(sub,w+1,0.9,dp+1,0,h+1.1,0,MAT2.redDark);
+    for(var f=1;f<floors;f++) box(sub,36.4,0.18,20.4,0,0.6+f*fh,0,MAT.wallWhite,{cast:false});
+    box(sub,37.4,1.1,21.4,0,h+1.15,0,M(0x8b8477,0.9));
   });
-  /* 北侧主楼：白色高层 + 中央黑色玻璃竖带 + 左侧横窗翼 */
-  var main=new THREE.Group(); main.position.set(0,0,-52); g.add(main);
-  box(main,34,34,18,0,17.6,0,MAT2.white);
-  box(main,9,32,0.4,0,17,9.25,MAT2.blackGlass,{cast:false});
-  for(var r=0;r<9;r++) box(main,34,0.18,0.4,0,2.0+r*3.6,9.3,MAT2.white,{cast:false});
-  var qb2=new QB();
-  gridWindows(qb2,{face:'front',w:34,d:18,y0:2.4,floors:9,floorH:3.6,cols:8,winW:2.5,winH:2.2,lift:0.45,
-    skip:function(f,c){ return c===3||c===4; }});
-  var wm2=qb2.mesh(MAT.glass); if(wm2) main.add(wm2);
-  /* 横窗翼楼 */
-  box(main,26,15,14,-30,8.1,0,MAT2.white);
-  for(var k=0;k<4;k++) box(main,23,1.5,0.3,-30,3+k*3.5,7.2,MAT.glass,{cast:false});
+  /* 中央黑色玻璃竖带 */
+  box(g,11,h-2,1.0,0,h/2+0.6,10.6,dark,{cast:false});
+  for(var r=0;r<floors;r++) box(g,11.4,0.16,1.2,0,1.6+r*fh,11.2,MAT.wallWhite,{cast:false});
+  /* 顶部圆形塔楼 / 穹顶 */
+  cyl(g,7.0,7.4,4.2,20,0,h+2.6,0,cream);
+  var dome=new THREE.Mesh(new THREE.SphereGeometry(7.0,20,10,0,Math.PI*2,0,Math.PI/2),M(0xc9c2b2,0.8));
+  dome.position.set(0,h+4.7,0); g.add(dome);
+  for(var a=0;a<12;a++) cyl(g,0.12,0.12,1.6,6,Math.cos(a*Math.PI/6)*6.6,h+6.0,Math.sin(a*Math.PI/6)*6.6,MAT.metal,{cast:false});
+  /* 右侧通信铁塔 */
+  var tw=new THREE.Group(); tw.position.set(44,0,-6); g.add(tw);
+  for(var leg=0;leg<4;leg++){
+    var lx=(leg%2?1:-1)*1.4, lz=(leg<2?1:-1)*1.4;
+    box(tw,0.16,26,0.16,lx,13+h*0.55,lz,MAT.metal,{cast:false});
+  }
+  for(var br=0;br<6;br++) box(tw,3.0,0.12,0.12,0,15+h*0.55+br*3.2,0,MAT.metal,{cast:false});
   /* 低层裙房 */
-  box(main,52,6,12,0,3.6,14,MAT2.cream);
-  box(main,46,3.2,0.3,0,2.2,20.1,MAT.glassLite,{cast:false});
-  box(main,54,0.8,14,0,6.9,14,MAT2.white);
+  box(g,46,6,12,0,3.6,14,cream);
+  box(g,40,3.2,0.3,0,2.2,20.1,MAT.glassLite,{cast:false});
+  box(g,48,0.8,14,0,6.9,14,MAT.wallWhite);
+  flat(g,96,30,0,0.02,26,MAT.plaza);
   return g;
 }
 
@@ -1840,21 +1918,16 @@ function buildStadiumReal(d){
   /* 白色阶梯看台（左侧） */
   for(var s=-1;s<=1;s+=2){
     for(var tier=0;tier<4;tier++){
-      box(g,132,1.0+tier*0.9,4.6,0,(1.0+tier*0.9)/2,s*(53+tier*4.2),MAT2.white,{cast:false});
-      box(g,132,0.2,4.6,0,1.0+tier*0.9+0.1,s*(53+tier*4.2),MAT2.red,{cast:false});
+      var ty=1.0+tier*0.9;
+      box(g,132,ty,4.6,0,ty/2,s*(53+tier*4.2),MAT2.white,{cast:false});
+      /* 官方照片：蓝红相间的看台座椅 */
+      box(g,64,0.45,2.8,-33,ty+0.3,s*(53+tier*4.2),M(0x2f5fa8,0.9),{cast:false});
+      box(g,64,0.45,2.8, 33,ty+0.3,s*(53+tier*4.2),M(0xb8483a,0.9),{cast:false});
+      box(g,132,0.18,0.25,0,ty+0.12,s*(53+tier*4.2)+2.3,MAT2.white,{cast:false});
     }
   }
-  /* 背景：红顶白墙长条建筑（官网照片特征） */
-  var bg=new THREE.Group(); bg.position.set(0,0,-78); g.add(bg);
-  box(bg,150,20,18,0,10.6,0,MAT2.white);
-  box(bg,152,2.4,20,0,21.8,0,MAT2.redDark);
-  /* 红坡顶 */
-  for(var rp=0;rp<2;rp++) box(bg,152,0.7,11,0,23.2,rp?5:-5,MAT2.red,{rx:rp?0.22:-0.22});
-  var cqb=new QB();
-  gridWindows(cqb,{face:'front',w:150,d:18,y0:2.5,floors:5,floorH:3.6,cols:32,winW:2.6,winH:2.2,lift:0.12});
-  var cwm=cqb.mesh(MAT.glass); if(cwm) bg.add(cwm);
-  for(var cc=0;cc<4;cc++) box(bg,3.2,20,0.4,-48+cc*13,10.6,9.3,MAT.glassBlue,{cast:false});
-  box(bg,24,0.6,0.5,0,9,9.4,M(0xd8a83c,0.6),{cast:false});
+  /* 田径场北侧保持开敞：按实拍，向北可直接望见图书馆与主楼 */
+
   /* 四角灯塔 */
   for(var sx=-1;sx<=1;sx+=2) for(var sz=-1;sz<=1;sz+=2){
     var lx=sx*82,lz=sz*58;
@@ -1955,27 +2028,185 @@ function passageBlock(d){
 }
 
 /* ---------- 大门 ---------- */
-function gateBlock(d,main){
-  return function(){
-    var g=new THREE.Group(); g.name='NUC_'+d.id;
-    var w=d.footprint[0],h=d.height;
-    flat(g,w+22,18,0,0.02,0,MAT.plaza2);
-    var half=w/2-2.2;
-    for(var s=-1;s<=1;s+=2){
-      box(g,main?4.4:2.8,h,main?4.4:2.8,s*half,h/2,0,MAT.wallStone);
-      box(g,main?5.2:3.4,0.7,main?5.2:3.4,s*half,h+0.35,0,MAT2.white);
-      box(g,main?5.6:3.6,1.0,main?5.6:3.6,s*half,0.5,0,MAT.darkBase);
-      if(main) box(g,1.4,0.9,1.4,s*half,h+1.1,0,MAT.glassLite,{cast:false});
+/* ---------- 校门：南门（校名石）/ 东门（门式连体楼）/ 普通门 ---------- */
+function gateBlock(d,kind){
+  if(kind==='south') return function(){ return buildSouthGateReal(d); };
+  if(kind==='east')  return function(){ return buildEastGateReal(d); };
+  return function(){ return buildSimpleGate(d,kind==='main'); };
+}
+/* 南门 / 一道门：白色大理石校名石 + 伸缩门 + 黄色网格广场 */
+function buildSouthGateReal(d){
+  var g=new THREE.Group(); g.name='NUC_south-gate';
+  flat(g,76,44,0,0.02,0,M(0x3f4542,1));
+  /* 黄色网格划线 */
+  var yl=M(0xe0b23c,1);
+  for(var i=-8;i<=8;i++){
+    box(g,0.18,0.02,42,i*4.5,0.045,0,yl,{cast:false});
+    box(g,74,0.02,0.18,0,0.045,i*2.6,yl,{cast:false});
+  }
+  /* 白色大理石校名石 */
+  box(g,18,4.4,1.7,0,2.5,-2,M(0xe8e6df,0.9));
+  box(g,19,0.7,2.6,0,0.35,-2,MAT.stone);
+  sign(g,'中 北 大 学',15.5,3.2,0,2.6,-1.1,'#b23a2c');
+  /* 伸缩门 / 栅栏 */
+  for(var f=0;f<26;f++){
+    var fx=-20+f*1.6;
+    box(g,0.13,1.5,0.13,fx,0.75,3.2,MAT.metal,{cast:false});
+  }
+  box(g,42,0.12,0.16,0,1.45,3.2,MAT.metal,{cast:false});
+  /* 两侧门柱与岗亭 */
+  for(var s=-1;s<=1;s+=2){
+    box(g,2.6,6,2.6,s*24,3,1,MAT.wallStone);
+    box(g,3.2,0.6,3.2,s*24,6.3,1,MAT2.white);
+    box(g,2.6,2.6,2.6,s*19,1.3,-8,M(0xded9cc,0.9));
+  }
+  /* 交通锥 */
+  for(var c=0;c<8;c++){
+    var cx=-16+c*4.6;
+    cone(g,0.32,0.9,cx,0.45,7,M(0xd85a3a,0.9),8);
+    box(g,0.8,0.1,0.8,cx,0.05,7,MAT2.white,{cast:false});
+  }
+  /* 背景绿化 */
+  for(var t2=0;t2<6;t2++) tree(g,-32+t2*13,-16,0.85);
+  return g;
+}
+/* 东门：两栋楼 + 巨型横梁组成的门洞 + 校徽 + 红色标语 */
+function buildEastGateReal(d){
+  var g=new THREE.Group(); g.name='NUC_east-gate';
+  var facade=M(0x3e4548,0.9), glass=M(0x16242b,0.2,0.4,{side:THREE.DoubleSide}),
+      trim=M(0x2b3235,0.85);
+  /* 左右两栋楼，中间留 30m 门洞 */
+  for(var s=-1;s<=1;s+=2){
+    var sub=new THREE.Group(); sub.position.x=s*44; g.add(sub);
+    box(sub,46,22,24,0,11,0,facade);
+    box(sub,47,0.8,25,0,0.4,0,trim);
+    for(var f=0;f<5;f++){
+      box(sub,44,1.7,0.3,0,3.2+f*4.0,12.2,glass,{cast:false});
+      box(sub,44,1.7,0.3,0,3.2+f*4.0,-12.2,glass,{cast:false});
+      box(sub,45,0.22,24.4,0,1.6+f*4.0,0,trim,{cast:false});
     }
-    box(g,w,main?2.8:1.8,main?3.2:2.2,0,h+(main?0.2:-0.6),0,MAT2.white);
-    box(g,w+1,0.4,main?3.6:2.6,0,h+(main?1.8:0.5),0,MAT2.redDark,{cast:false});
-    sign(g,main?'中 北 大 学':d.name,main?w-6:w-3,main?2.2:1.4,0,h+(main?0.2:-0.6),main?1.7:1.2,'#a8362b');
-    if(main){
-      box(g,13,3.4,2.2,-half-9,1.7,6,MAT.rock);
-      sign(g,'中北大学',10,2.0,-half-9,1.8,7.16,'#e8dcc0');
-    }
-    return g;
-  };
+    box(sub,47,0.9,25,0,22.4,0,trim);
+  }
+  /* 顶部巨型横梁 */
+  box(g,134,7,26,0,22,0,facade);
+  box(g,135,0.8,27,0,25.9,0,trim);
+  for(var s2=-1;s2<=1;s2+=2) box(g,1.2,18.5,26,s2*22,9.25,0,trim,{cast:false});
+  for(var b=0;b<3;b++) box(g,132,1.1,0.3,0,20+b*2.2,13.2,glass,{cast:false});
+  /* 圆形校徽 */
+  cyl(g,3.1,3.1,0.35,28,0,22.2,13.4,MAT.gold,{rx:Math.PI/2});
+  cyl(g,2.5,2.5,0.4,28,0,22.2,13.65,M(0x243633,0.6),{rx:Math.PI/2,cast:false});
+  /* 深色石材广场 + 浅色条带 */
+  flat(g,150,80,0,0.02,24,M(0x3c4240,1));
+  for(var st=0;st<5;st++) flat(g,6,76,-52+st*26,0.035,24,M(0x8d918c,1));
+  /* 红色立体标语 */
+  box(g,62,3.4,0.6,0,2.2,48,M(0x8f2a1e,0.9));
+  signLong(g,'为党育人 为国育才 为军铸器',60,3.2,0,2.2,48.4,'#e83c28');
+  for(var tl=0;tl<6;tl++) lamp(g,-60+tl*24,52,1.0);
+  return g;
+}
+function buildSimpleGate(d,main){
+  var g=new THREE.Group(); g.name='NUC_'+d.id;
+  var w=d.footprint[0],h=d.height;
+  flat(g,w+22,18,0,0.02,0,MAT.plaza);
+  var half=w/2-2.2;
+  for(var s=-1;s<=1;s+=2){
+    box(g,main?4.4:2.8,h,main?4.4:2.8,s*half,h/2,0,MAT.wallStone);
+    box(g,main?5.2:3.4,0.7,main?5.2:3.4,s*half,h+0.35,0,MAT2.white);
+  }
+  box(g,w,main?2.8:1.8,main?3.2:2.2,0,h+(main?0.2:-0.6),0,MAT2.white);
+  box(g,w+1,0.4,3.2,0,h+1.8,0,MAT2.redDark,{cast:false});
+  sign(g,main?'中 北 大 学':d.name,main?w-6:w-3,main?2.2:1.4,0,h+(main?0.2:-0.6),1.7,'#a8362b');
+  return g;
+}
+
+/* ---------- 航空宇航学院（白色框架格栅顶 + 密集竖肋 + 金字横带） ---------- */
+function buildAerospace(d){
+  var g=new THREE.Group(); g.name='NUC_aerospace-college';
+  var w=64,dp=30,h=20;
+  var cream=M(0xb4b1a7,0.9), frame=M(0xdcdad2,0.7,0.2),
+      black=M(0x1c2022,0.85), deep=M(0x121a1e,0.2,0.45,{side:THREE.DoubleSide});
+  flat(g,96,54,0,0.02,14,M(0x454a47,1));
+  /* 主体 */
+  box(g,w,h-4,dp,0,(h-4)/2+0.6,0,cream);
+  /* 密集白色竖肋 + 深色窗 */
+  for(var i=0;i<22;i++){
+    var x=-w/2+1.5+i*((w-3)/21);
+    box(g,0.42,9.5,0.55,x,10.6,dp/2+0.3,frame,{cast:false});
+    if(i<21) box(g,2.3,9.0,0.22,x+1.3,10.6,dp/2+0.05,deep,{cast:false});
+  }
+  /* 黑色石材横带 + 金色院名 */
+  box(g,w+0.6,3.0,0.7,0,5.8,dp/2+0.5,black);
+  sign(g,'航 空 宇 航 学 院',34,2.4,0,5.8,dp/2+0.95,'#e8c66a');
+  /* 底层凹入玻璃入口 */
+  box(g,w-6,4.2,0.5,0,2.6,dp/2+0.35,MAT.glassBlue,{cast:false});
+  for(var dr=0;dr<8;dr++) box(g,0.24,4.2,0.6,-26+dr*7.4,2.6,dp/2+0.65,MAT.steel,{cast:false});
+  box(g,20,1.0,5,0,5.2,dp/2+2.5,frame);
+  /* 顶部白色框架格栅 */
+  box(g,w+3,0.7,dp+3,0,h-3.0,0,frame);
+  for(var c=0;c<11;c++){
+    var cx=-w/2+c*(w/10);
+    box(g,0.35,3.2,0.35,cx,h-1.4,dp/2+1.2,frame,{cast:false});
+    box(g,0.35,3.2,0.35,cx,h-1.4,-dp/2-1.2,frame,{cast:false});
+  }
+  box(g,w+3,0.5,0.5,0,h+0.4,dp/2+1.2,frame,{cast:false});
+  box(g,w+3,0.5,0.5,0,h+0.4,-dp/2-1.2,frame,{cast:false});
+  for(var s=0;s<8;s++){
+    var sx=-w/2+2+s*((w-4)/7);
+    box(g,0.3,0.3,dp+2,sx,h+0.4,0,frame,{cast:false});
+  }
+  /* 门前草坪与方形铺装 */
+  box(g,30,0.12,12,0,0.08,dp/2+9,MAT.grass,{cast:false});
+  for(var p=0;p<24;p++){
+    var px=-14+(p%6)*5.6, pz=dp/2+16+Math.floor(p/6)*3.4;
+    box(g,5.4,0.04,3.2,px,0.05,pz,M(0x50544f,0.9),{cast:false});
+  }
+  return g;
+}
+/* ---------- 歼-6 歼击机陈列 ---------- */
+function buildJet(d){
+  var g=new THREE.Group(); g.name='NUC_jet-fighter';
+  var alu=M(0xa8b2b4,0.3,0.7), alu2=M(0x8b9598,0.35,0.65),
+      glass=M(0x243e4c,0.15,0.5), red=M(0xa83020,0.85);
+  flat(g,24,20,0,0.02,0,M(0x474c49,1));
+  box(g,18,0.12,10,0,0.08,0,MAT.grass,{cast:false});
+  /* 机身（沿 X，机头朝 +X） */
+  var body=cyl(g,0.32,1.35,13,14,0,2.5,0,alu,{rz:-Math.PI/2});
+  cyl(g,1.35,1.35,1.6,14,-6.2,2.5,0,alu2,{rz:-Math.PI/2,cast:false});
+  /* 机头锥 */
+  cyl(g,0.05,0.32,2.0,12,7.4,2.5,0,alu,{rz:-Math.PI/2});
+  /* 进气口 / 座舱盖 */
+  var canopy=new THREE.Mesh(new THREE.SphereGeometry(0.85,12,8),glass);
+  canopy.scale.set(2.4,0.7,0.8); canopy.position.set(2.7,3.2,0); g.add(canopy);
+  /* 后掠三角主翼 */
+  for(var s=-1;s<=1;s+=2){
+    var wing=box(g,6.4,0.16,3.4,-0.7,2.5,s*3.2,alu,{ry:s*0.62,cast:false});
+    box(g,2.6,0.14,2.2,-5.2,2.6,s*2.2,alu2,{ry:s*0.5,cast:false});
+  }
+  /* 垂尾与平尾 */
+  box(g,3.0,3.2,0.16,-5.0,4.0,0,alu,{rz:0.32,cast:false});
+  for(var hs=-1;hs<=1;hs+=2) box(g,2.2,0.14,2.0,-5.6,2.6,hs*1.5,alu2,{ry:hs*0.4,cast:false});
+  /* 支架 */
+  for(var st=0;st<3;st++) cyl(g,0.12,0.16,2.0,8,-3+st*3,1.0,(st-1)*1.6,MAT.metal,{cast:false});
+  /* 编号 */
+  sign(g,'51686',3.4,0.9,2.0,2.85,1.5,'#3d4548');
+  /* 红色围栏 */
+  for(var f=0;f<12;f++){
+    var a=f*Math.PI/6, rx=Math.cos(a)*9.2, rz=Math.sin(a)*6.6;
+    cyl(g,0.08,0.1,1.0,6,rx,0.5,rz,MAT.metal,{cast:false});
+  }
+  box(g,18,0.14,0.14,0,0.95,6.6,red,{cast:false});
+  box(g,18,0.14,0.14,0,0.95,-6.6,red,{cast:false});
+  /* 说明牌 */
+  box(g,1.6,1.0,0.14,2,1.0,7.0,MAT.gold,{cast:false});
+  return g;
+}
+/* ---------- 东门红色立体标语（可单独摆放） ---------- */
+function buildSlogan(d){
+  var g=new THREE.Group(); g.name='NUC_east-slogan';
+  box(g,58,3.2,0.6,0,2.1,0,M(0x8f2a1e,0.9));
+  signLong(g,'为党育人 为国育才 为军铸器',56,3.0,0,2.1,0.4,'#e83c28');
+  flat(g,62,10,0,0.02,2,M(0x555a58,1));
+  return g;
 }
 
 /* ---------- 二龙山（真实尺度：西侧南北向长山体） ---------- */
@@ -2103,8 +2334,8 @@ builders['football-north']=footballPitch(defMap['football-north']);
 builders['yifu']=function(){ return buildYifu(defMap['yifu']); };
 builders['academic-exchange']=function(){ return buildExchange(defMap['academic-exchange']); };
 builders['advanced-mfg']=function(){ return buildAdvanced(defMap['advanced-mfg']); };
-builders['south-gate']=gateBlock(defMap['south-gate'],true);
-builders['east-gate']=gateBlock(defMap['east-gate'],true);
+builders['south-gate']=function(){ return buildSouthGateReal(defMap['south-gate']); };
+builders['east-gate']=function(){ return buildEastGateReal(defMap['east-gate']); };
 ['service-center','bathhouse'].forEach(function(id){ builders[id]=serviceBlock(defMap[id]); });
 builders['underground-pass']=passageBlock(defMap['underground-pass']);
 
@@ -2117,7 +2348,12 @@ CATALOG.forEach(function(d){
     case 'teach-slab': builders[d.id]=function(){ return teachSlab(d); }; break;
     case 'canteen': builders[d.id]=canteenBlock(d); break;
     case 'service': builders[d.id]=serviceBlock(d); break;
-    case 'gate-small': builders[d.id]=gateBlock(d,false); break;
+    case 'gate-small': builders[d.id]=function(){ return buildSimpleGate(d,false); }; break;
+    case 'gate-south': builders[d.id]=function(){ return buildSouthGateReal(d); }; break;
+    case 'gate-east': builders[d.id]=function(){ return buildEastGateReal(d); }; break;
+    case 'aerospace': builders[d.id]=function(){ return buildAerospace(d); }; break;
+    case 'jet': builders[d.id]=function(){ return buildJet(d); }; break;
+    case 'slogan': builders[d.id]=function(){ return buildSlogan(d); }; break;
     case 'sport-hall': builders[d.id]=sportHall(d,false); break;
     case 'sport-arch': builders[d.id]=sportHall(d,true); break;
     case 'football': builders[d.id]=footballPitch(d); break;

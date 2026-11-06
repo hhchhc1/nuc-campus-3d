@@ -231,6 +231,20 @@ function sign(g,text,w,h,x,y,z,color,bg,ry){
   me.position.set(x,y,z); if(ry) me.rotation.y=ry;
   g.add(me); return me;
 }
+/* 宽幅标语牌（东门十二字使命），避免横排文字被拉扁 */
+function signLong(g,text,w,h,x,y,z,color){
+  if(typeof document==='undefined') return null;
+  var cv=document.createElement('canvas'); cv.width=2048; cv.height=160;
+  var c=cv.getContext('2d');
+  c.font='bold 116px "Microsoft YaHei","PingFang SC",sans-serif';
+  c.textAlign='center'; c.textBaseline='middle';
+  c.fillStyle=color||'#d3402f';
+  c.fillText(text,1024,84);
+  var tex=new THREE.CanvasTexture(cv);
+  var m=new THREE.MeshBasicMaterial({map:tex,transparent:true,side:THREE.DoubleSide,depthWrite:false});
+  var me=new THREE.Mesh(new THREE.PlaneGeometry(w,h),m);
+  me.position.set(x,y,z); g.add(me); return me;
+}
 /* 树 */
 function tree(g,x,z,s,kind,y0){
   s=s||1; y0=y0||0;

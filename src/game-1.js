@@ -180,7 +180,7 @@ function buildLandmarks(){
   spawns=[
     {name:'一道门',pos:[-200,0,272]},
     {name:'行知广场',pos:[80,0,-20]},
-    {name:'图书馆',pos:[-20,0,-100]},
+    {name:'图书馆',pos:[-20,0,-68]},
     {name:'真草坪',pos:[-110,0,20]},
     {name:'德怀广场',pos:[-200,0,220]},
     {name:'二龙山',pos:[-255,0,-90]},
@@ -204,7 +204,56 @@ function zoneOf(x,z){
 /* ---------------- 环境装饰 ---------------- */
 function buildDecor(){
   addContactShadows(); addTrees(); addLamps(); addLabels(); addStreetFurniture();
-  addNPCs(); addBirds(); addParticles();
+  addLibraryAvenue(); addNPCs(); addBirds(); addParticles();
+}
+/* 图书馆前林荫大道：按实拍还原绿色拱廊、石球、宣传栏与红色道旗 */
+function addLibraryAvenue(){
+  var bark=new T.MeshStandardMaterial({color:0x4a3a28,roughness:1});
+  var leaves=[new T.MeshStandardMaterial({color:0x3f7437,roughness:1}),
+              new T.MeshStandardMaterial({color:0x4c8540,roughness:1}),
+              new T.MeshStandardMaterial({color:0x356833,roughness:1})];
+  var stone=new T.MeshStandardMaterial({color:0xc9c3b4,roughness:1});
+  var panel=new T.MeshStandardMaterial({color:0x9aa49c,roughness:0.8});
+  var pane2=new T.MeshStandardMaterial({color:0x4c5a53,roughness:0.8});
+  var red=new T.MeshStandardMaterial({color:0xb5402f,roughness:0.9});
+  var metal=new T.MeshStandardMaterial({color:0x8d9892,roughness:0.6,metalness:0.3});
+  for(var i=0;i<11;i++){
+    var z=-120+i*6.0;
+    for(var s=-1;s<=1;s+=2){
+      var x=-45+s*7.6;
+      var tr=new T.Mesh(new T.CylinderGeometry(0.36,0.55,7.6,8),bark);
+      tr.position.set(x,3.8,z); decor.add(tr);
+      for(var c=0;c<3;c++){
+        var cr=4.4-c*0.5;
+        var crown=new T.Mesh(new T.SphereGeometry(cr,10,8),leaves[(i+c)%3]);
+        crown.position.set(x+(c-1)*1.5*s,8.4+c*0.9,z+(c%2?0.8:-0.8));
+        decor.add(crown);
+      }
+      /* 圆石球路障 */
+      var ball=new T.Mesh(new T.SphereGeometry(0.5,10,8),stone);
+      ball.position.set(-45+s*5.0,0.5,z); decor.add(ball);
+    }
+  }
+  /* 右侧宣传栏 */
+  for(var p=0;p<7;p++){
+    var pz=-116+p*9;
+    var frame=new T.Mesh(new T.BoxGeometry(3.4,2.6,0.22),panel);
+    frame.position.set(-30,1.7,pz); frame.rotation.y=Math.PI/2; decor.add(frame);
+    var glass=new T.Mesh(new T.BoxGeometry(2.9,2.0,0.26),pane2);
+    glass.position.set(-30.14,1.8,pz); glass.rotation.y=Math.PI/2; decor.add(glass);
+    for(var lg=-1;lg<=1;lg+=2){
+      var leg=new T.Mesh(new T.CylinderGeometry(0.09,0.11,0.6,6),metal);
+      leg.position.set(-30,0.3,pz+lg*1.4); decor.add(leg);
+    }
+  }
+  /* 红色道旗 */
+  for(var f=0;f<9;f++){
+    var fz=-118+f*7.5, fx=-45+(f%2?6.4:-6.4);
+    var pole=new T.Mesh(new T.CylinderGeometry(0.07,0.09,5.2,6),metal);
+    pole.position.set(fx,2.6,fz); decor.add(pole);
+    var cloth=new T.Mesh(new T.BoxGeometry(0.9,1.7,0.06),red);
+    cloth.position.set(fx+(f%2?-0.5:0.5),4.1,fz); decor.add(cloth);
+  }
 }
 /* 关闭实时阴影后，用一层批量接触阴影让建筑"落地" */
 function addContactShadows(){

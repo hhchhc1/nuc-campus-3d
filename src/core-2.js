@@ -3,149 +3,188 @@
  * ============================================================ */
 
 /* ---------- 教学主楼（11号教学楼） ---------- */
+/* ---------- 教学主楼（11号楼）：按篮球场仰视实拍 + 官网正面照重建 ---------- */
 function buildMainBuilding(){
   var g=new THREE.Group(); g.name='NUC_main-building';
-  var w=82,d=26,base=1.0,floors=13,fh=4.0,h=floors*fh;
+  var w=54,d=38,base=1.0,floors=15,fh=4.0,h=floors*fh;   /* 60m 塔式 */
+  var wall=M(0xd2cdbf,0.92), rib=M(0xe6e1d4,0.88),
+      silver=M(0xb9c2c6,0.35,0.6), grille=M(0xc8d0d0,0.4,0.55),
+      darkGlass=M(0x243a48,0.16,0.45,{side:THREE.DoubleSide});
 
-  /* 主体 + 深色竖窗底衬 */
-  box(g,w,h,d,0,h/2+base,0,MAT.wall);
-  box(g,w+0.8,base,d+0.8,0,base/2,0,MAT.darkBase);
-  box(g,w-0.4,h-2,0.18,0,h/2+base,d/2+0.10,MAT.glass,{cast:false});
-  box(g,w-0.4,h-2,0.18,0,h/2+base,-d/2-0.10,MAT.glass,{cast:false});
+  /* 主体 */
+  box(g,w,h,d,0,h/2+base,0,wall);
+  box(g,w+1.2,base,d+1.2,0,base/2,0,MAT.darkBase);
 
-  /* 中央蓝色玻璃幕墙（照片核心特征） */
-  var cw=26,ch=40;
-  box(g,cw,ch,0.5,0,ch/2+9,d/2+0.35,MAT.glassBlue,{cast:false});
-  box(g,cw,ch,0.5,0,ch/2+9,-d/2-0.35,MAT.glassBlue,{cast:false});
-  for(var i=1;i<9;i++){
-    box(g,cw,0.16,0.12,0,9+i*(ch/9),d/2+0.63,MAT.steel,{cast:false});
-    box(g,cw,0.16,0.12,0,9+i*(ch/9),-d/2-0.63,MAT.steel,{cast:false});
-  }
-  for(var j=1;j<7;j++){
-    box(g,0.16,ch,0.12,-cw/2+j*(cw/7),ch/2+9,d/2+0.63,MAT.steel,{cast:false});
-  }
+  /* 密集竖向窄窗（塔楼立面的核心特征） */
+  var qb=new QB();
+  ['front','back','left','right'].forEach(function(face){
+    var cols=(face==='front'||face==='back')?14:11;
+    gridWindows(qb,{face:face,w:w,d:d,y0:base+1.3,floors:floors,floorH:fh,
+      cols:cols,winW:1.15,winH:2.1,lift:0.10,
+      skip:function(f,c){
+        if(face!=='front') return false;
+        /* 正面中央留给银色格栅与蓝玻璃中庭 */
+        return c>=5&&c<=8;
+      }});
+  });
+  var wm=qb.mesh(darkGlass); if(wm) g.add(wm);
 
-  /* 两侧米白色竖向窗肋 */
-  var rib;
-  for(var x=-w/2+1.6;x<=w/2-1.6;x+=3.05){
-    if(Math.abs(x)<cw/2+0.6) continue;
+  /* 米白竖向窗肋（贯穿全高） */
+  var step=3.5;
+  for(var x=-w/2+1.6;x<=w/2-1.6;x+=step){
     for(var s=-1;s<=1;s+=2){
-      rib=box(g,0.62,h-1.2,0.85,x,h/2+base,s*(d/2+0.32),MAT.wallWhite);
+      if(s===1 && Math.abs(x)<11) continue;   /* 正面中央让位 */
+      box(g,0.42,h-1.5,0.55,x,h/2+base,s*(d/2+0.28),rib,{cast:false});
     }
   }
-  /* 侧面同样是竖向窗肋 + 深玻璃底衬，与正立面呼应 */
-  for(var sx2=-1;sx2<=1;sx2+=2){
-    box(g,0.18,h-2,d-0.5,sx2*(w/2+0.12),h/2+base,0,MAT.glass,{cast:false});
-    for(var sz=-d/2+1.6;sz<=d/2-1.6;sz+=3.0){
-      box(g,0.85,h-1.2,0.62,sx2*(w/2+0.34),h/2+base,sz,MAT.wallWhite);
-    }
+  for(var z=-d/2+1.6;z<=d/2-1.6;z+=step){
+    for(var sx=-1;sx<=1;sx+=2)
+      box(g,0.55,h-1.5,0.42,sx*(w/2+0.28),h/2+base,z,rib,{cast:false});
   }
-  /* 前后立面细腰线 */
-  for(var f2=1;f2<floors;f2++) box(g,w+0.2,0.12,0.12,0,base+f2*fh,d/2+0.7,MAT.wallWhite,{cast:false});
+  /* 每层细腰线 */
+  for(var f2=1;f2<floors;f2++)
+    box(g,w+0.5,0.12,d+0.5,0,base+f2*fh,0,MAT.wallWhite,{cast:false});
 
-  /* 顶部悬挑帽檐 + 格栅 */
-  box(g,w+7,1.8,d+9,0,h+base+1.6,0,MAT.wallWhite);
-  box(g,w+7,0.5,1.0,0,h+base+0.55,(d+9)/2,MAT.darkBase,{cast:false});
-  for(var k=0;k<30;k++){
-    var gx=-w/2-2+k*((w+4)/29);
-    box(g,0.55,0.9,1.1,gx,h+base+2.9,(d+9)/2-1.1,MAT.darkBase,{cast:false});
+  /* 左侧银色外挂圆筒（观景/设备筒，照片最醒目细节） */
+  var tubeX=-w/2-0.9, tubeZ=d/2+2.2;
+  cyl(g,1.75,1.75,h-3,18,tubeX,(h-3)/2+base+1.5,tubeZ,silver);
+  for(var band=0;band<9;band++)
+    cyl(g,1.95,1.95,0.35,18,tubeX,base+4+band*6.4,tubeZ,M(0xe4ecec,0.3,0.65));
+  cyl(g,2.1,2.1,0.6,18,tubeX,base+1.2,tubeZ,MAT.darkBase);
+
+  /* 正面中央：下部银色金属格栅 + 上部蓝色玻璃中庭 */
+  box(g,13,19,0.55,0,20.5,d/2+0.35,grille,{cast:false});
+  for(var gr=0;gr<7;gr++) for(var gc=0;gc<4;gc++){
+    var gx=-5.2+gc*3.5, gy=12.2+gr*2.55;
+    box(g,3.0,2.1,0.16,gx,gy,d/2+0.66,M(0x9aa8ac,0.4,0.5),{cast:false});
+    cone(g,0.42,0.7,gx,gy+1.25,d/2+0.78,M(0xdfe6e6,0.4,0.5),3);
   }
-  /* 楼顶红色校名 */
-  sign(g,'中北大学',28,7.0,0,h+base+5.2,(d+9)/2-1.8,'#b83a2f');
+  box(g,17,25,0.5,0,45.5,d/2+0.32,MAT.glassBlue,{cast:false});
+  for(var vv=0;vv<6;vv++) box(g,0.24,25,0.2,-8+vv*3.2,45.5,d/2+0.62,MAT.steel,{cast:false});
+  for(var hh=0;hh<5;hh++) box(g,17,0.22,0.2,0,34+hh*5,d/2+0.62,MAT.steel,{cast:false});
 
-  /* 白色大雨棚 + 柱廊 */
-  box(g,48,2.4,11,0,9.2,d/2+5,MAT.wallWhite);
-  box(g,48,0.5,11.4,0,10.65,d/2+5,MAT.steel,{cast:false});
-  for(var p=0;p<7;p++){
-    var px=-20+p*(40/6);
-    cyl(g,0.85,0.9,8.2,12,px,4.1,d/2+9,MAT.wallWhite);
-    box(g,2.5,0.45,2.5,px,8.4,d/2+9,MAT.wallWhite,{cast:false});
+  /* 顶部悬挑帽檐 + 前沿格栅 + 红色校名 */
+  box(g,w+9,1.9,d+10,0,h+base+1.8,0,MAT.wallWhite);
+  box(g,w+9,0.55,1.1,0,h+base+0.7,(d+10)/2,MAT.darkBase,{cast:false});
+  for(var k=0;k<22;k++){
+    var gx2=-w/2-3+k*((w+6)/21);
+    box(g,0.5,1.0,1.2,gx2,h+base+3.0,(d+10)/2-1.2,MAT.darkBase,{cast:false});
   }
-  /* 入口门洞 */
-  box(g,20,6.5,0.3,0,4.2,d/2+0.2,MAT.glass,{cast:false});
-  for(var q=0;q<7;q++) box(g,0.2,6.5,0.4,-10+q*(20/6),4.2,d/2+0.45,MAT.steel,{cast:false});
+  box(g,w+11,0.5,d+12,0,h+base+3.6,0,M(0xb9b6ac,0.8));
+  sign(g,'中 北',13,3.3,-17,h+base+6.0,(d+10)/2-1.4,'#c03224');
+  sign(g,'大 学',13,3.3, 17,h+base+6.0,(d+10)/2-1.4,'#c03224');
 
-  /* 宽台阶 */
-  stairs(g,50,9,9,0,d/2+15,MAT.plaza,0.3);
-  /* 阶梯花坛（照片前两侧） */
+  /* 白色大雨棚 + 方柱门廊 */
+  box(g,32,2.4,11,0,9.4,d/2+5,MAT.wallWhite);
+  box(g,32,0.5,11.4,0,10.85,d/2+5,MAT.steel,{cast:false});
+  for(var p=0;p<6;p++){
+    var px=-13+p*(26/5);
+    box(g,1.5,8.4,1.5,px,4.2,d/2+9,MAT.wallWhite);
+    box(g,2.3,0.4,2.3,px,8.6,d/2+9,MAT.wallWhite,{cast:false});
+  }
+  box(g,16,6.2,0.3,0,4.1,d/2+0.25,MAT.glass,{cast:false});
+  for(var q=0;q<5;q++) box(g,0.2,6.2,0.4,-8+q*4,4.1,d/2+0.5,MAT.steel,{cast:false});
+  stairs(g,34,9,9,0,d/2+15,MAT.plaza,0.3);
+
+  /* 右侧低配楼 */
+  box(g,26,17,24,40,8.5,-5,MAT.wallWarm);
+  box(g,26.4,0.8,24.4,40,17.4,-5,MAT.roof,{cast:false});
+  var qb2=new QB();
+  gridWindows(qb2,{face:'front',w:26,d:24,y0:2.2,floors:4,floorH:3.8,cols:7,winW:2.2,winH:2.2,lift:0.12});
+  var wm2=qb2.mesh(MAT.glass); if(wm2){ wm2.position.set(40,0,-5); g.add(wm2); }
+
+  /* 阶梯花坛、护栏、前广场 */
   for(var sd=-1;sd<=1;sd+=2){
     for(var st=0;st<3;st++){
-      var bw=11-st*1.4;
-      box(g,bw,0.55,4.4,sd*(33+st*1.2),0.28+st*0.28,d/2+13+st*2.6,MAT.plaza,{cast:false});
-      box(g,bw-0.7,0.12,3.7,sd*(33+st*1.2),0.6+st*0.28,d/2+13+st*2.6,MAT.grass,{cast:false});
+      var bw=10-st*1.3;
+      box(g,bw,0.55,4.2,sd*(22+st*1.1),0.28+st*0.28,d/2+13+st*2.5,MAT.plaza,{cast:false});
+      box(g,bw-0.7,0.12,3.5,sd*(22+st*1.1),0.6+st*0.28,d/2+13+st*2.5,MAT.grass,{cast:false});
     }
   }
-  /* 平台铺装 */
-  flat(g,w+30,42,0,0.03,d/2+12,MAT.plaza);
+  for(var rail=0;rail<14;rail++){
+    var rx=-26+rail*4;
+    cyl(g,0.07,0.07,1.1,6,rx,0.55,d/2+22,MAT.metal,{cast:false});
+  }
+  box(g,56,0.09,0.12,0,1.1,d/2+22,MAT.metal,{cast:false});
+  flat(g,w+34,44,0,0.03,d/2+13,MAT.plaza);
   return g;
 }
 
 /* ---------- 图书馆：双弧形书卷 + 钢桁架屋面 ---------- */
+/* ---------- 图书馆：按田径场实拍 + 基建部官方照片重建 ---------- */
 function buildLibrary(){
   var g=new THREE.Group(); g.name='NUC_library';
-  var wingW=46,wingD=40,wingH=21,base=2.2;
-  var centers=[-36,36];
+  var wingW=48,wingD=44,wingH=22,base=2.2;
+  var centers=[-31,31];
+  var cream=M(0xcac3b1,0.9), deep=M(0x10191b,0.15,0.4,{side:THREE.DoubleSide}),
+      steelW=M(0xe9ece8,0.4,0.5);
 
-  /* 黑色石材基座 */
-  box(g,118,base,50,0,base/2,0,MAT.darkBase);
-  box(g,120,0.5,52,0,0.25,0,MAT.darkBase2,{cast:false});
+  box(g,112,base,48,0,base/2,0,MAT.darkBase);
+  box(g,114,0.5,50,0,0.25,0,MAT.darkBase2,{cast:false});
 
-  centers.forEach(function(cx,wi){
-    /* 弧形体量：沿弧线排列的竖向书页肋 + 深绿玻璃间隔 */
+  centers.forEach(function(cx){
     var N=20;
     for(var i=0;i<N;i++){
       var t=(i/(N-1))*2-1;
       var x=cx+t*(wingW/2);
-      var bulge=9.5*Math.cos(t*Math.PI/2);
+      var bulge=8.6*Math.cos(t*Math.PI/2);
       var z=bulge;
-      var ry=-t*0.17;
-      /* 深绿玻璃窗带（在竖肋之后，露出书页间的暗色竖缝） */
-      box(g,1.85,wingH-1.4,0.22,x+1.16,wingH/2+base,z+wingD/2-1.55,MAT.glassGreen,{ry:ry,cast:false});
-      /* 米白书页竖肋（薄叶片，避免旋转后互相遮挡） */
-      box(g,0.82,wingH,1.35,x,wingH/2+base,z+wingD/2-0.55,MAT.wallStone,{ry:ry});
+      var ry=-t*0.15;
+      /* 米白书页竖肋（略微外倾） */
+      box(g,0.92,wingH,2.9,x,wingH/2+base,z+wingD/2-0.5,cream,{ry:ry,rz:-t*0.018});
+      /* 肋间近黑玻璃竖缝 */
+      box(g,1.85,wingH-1.2,0.22,x+1.18,wingH/2+base,z+wingD/2-1.9,deep,{ry:ry,cast:false});
     }
-    /* 背部实墙与两端封板 */
-    box(g,wingW+2,wingH,1.2,cx,wingH/2+base,-wingD/2+0.4,MAT.wallStone);
-    for(var e=-1;e<=1;e+=2){
-      box(g,1.4,wingH,wingD,cx+e*(wingW/2+0.7),wingH/2+base,0,MAT.wallStone);
-    }
-    /* 顶部白色空间钢桁架玻璃屋面 */
-    var roofY=wingH+base+1.2;
-    box(g,wingW+4,0.35,wingD+5,cx,roofY+1.4,0,MAT.glassLite,{cast:false});
+    /* 两端封板与背墙 */
+    box(g,wingW+2,wingH,1.2,cx,wingH/2+base,-wingD/2+0.4,cream);
+    for(var e=-1;e<=1;e+=2)
+      box(g,1.4,wingH,wingD*0.42,cx+e*(wingW/2+0.7),wingH/2+base,-wingD*0.29,cream);
+    /* 白色三角钢桁架挑檐 */
+    var roofY=wingH+base+1.0;
+    box(g,wingW+5,0.12,wingD+7,cx,roofY+1.6,0,M(0xdfe9e8,0.2,0.1,{transparent:true,opacity:0.18}),{cast:false});
     for(var r=0;r<10;r++){
       var rx=cx-wingW/2+r*(wingW/9);
-      box(g,0.22,0.3,wingD+5,rx,roofY+1.65,0,MAT.steel,{cast:false});
+      box(g,0.2,0.26,wingD+7,rx,roofY+1.85,0,steelW,{cast:false});
     }
     for(var s=0;s<7;s++){
       var rz=-wingD/2+s*(wingD/6);
-      box(g,wingW+4,0.22,0.22,cx,roofY+1.9,rz,MAT.steel,{cast:false});
-      /* 斜腹杆 */
-      box(g,wingW+3,0.16,0.16,cx,roofY+0.7,rz,MAT.steel,{rz:0.13,cast:false});
+      box(g,wingW+5,0.2,0.2,cx,roofY+2.05,rz,steelW,{cast:false});
+      /* 三角斜腹杆 */
+      box(g,wingW+4,0.16,0.16,cx,roofY+0.85,rz,steelW,{rz:0.22,cast:false});
+      box(g,wingW+4,0.16,0.16,cx,roofY+0.85,rz+1.2,steelW,{rz:-0.22,cast:false});
     }
-    /* 侧墙横向窗带 */
+    /* 背立面窗格 */
     var qb=new QB();
-    gridWindows(qb,{face:'back',w:wingW,d:wingD,y0:base+3,floors:5,floorH:3.5,cols:9,winW:3.1,winH:2.0,lift:0.65});
+    gridWindows(qb,{face:'back',w:wingW,d:wingD,y0:base+3,floors:5,floorH:3.5,cols:9,winW:3.0,winH:2.0,lift:0.65});
     var wm=qb.mesh(MAT.glass);
     if(wm){ wm.position.x=cx; g.add(wm); }
   });
 
   /* 中部蓝色玻璃中庭 */
-  box(g,25,20,34,0,12,-1,MAT.glassBlue,{cast:false});
-  for(var v=0;v<9;v++){
-    box(g,0.22,20,0.4,-12+v*3,12,16.2,MAT.steel,{cast:false});
-  }
-  for(var hh=1;hh<6;hh++) box(g,25,0.18,0.4,0,2+hh*3.3,16.2,MAT.steel,{cast:false});
-  box(g,27,1.2,36,0,22.4,-1,MAT.steel);
+  box(g,22,20,34,0,12,-1,MAT.glassBlue,{cast:false});
+  for(var v=0;v<8;v++) box(g,0.22,20,0.4,-10+v*2.9,12,16.2,MAT.steel,{cast:false});
+  for(var hh=1;hh<6;hh++) box(g,22,0.18,0.4,0,2+hh*3.3,16.2,MAT.steel,{cast:false});
+  box(g,24,1.2,36,0,22.4,-1,MAT.steel);
 
-  /* 入口：雨棚、招牌、台阶 */
-  box(g,22,1.4,8,0,7.2,22,MAT.wallWhite);
+  /* 入口 */
+  box(g,20,1.4,8,0,7.2,22,MAT.wallWhite);
   for(var pc=0;pc<6;pc++) cyl(g,0.5,0.55,6.0,10,-9+pc*3.6,3.0,25.2,MAT.wallWhite);
-  box(g,14,5.5,0.4,0,3.6,20.2,MAT.glass,{cast:false});
-  sign(g,'图书馆',11,2.6,0,8.3,26.05,'#8a2f24');
-  stairs(g,30,8,8,0,29,MAT.plaza,0.28);
-  /* 前广场与前池 */
-  flat(g,120,48,0,0.02,34,MAT.plaza);
-  box(g,26,0.3,9,0,0.16,38,MAT.water,{cast:false});
+  box(g,13,5.5,0.4,0,3.6,20.2,MAT.glass,{cast:false});
+  sign(g,'图书馆',10,2.5,0,8.3,26.05,'#8a2f24');
+  stairs(g,28,8,8,0,29,MAT.plaza,0.28);
+  flat(g,116,46,0,0.02,34,MAT.plaza);
+
+  /* 馆前垂柳（田径场照片里的显著景观） */
+  for(var wi=0;wi<7;wi++){
+    var wx=-46+wi*15, wz=42+(wi%2)*4;
+    cyl(g,0.4,0.55,6.5,8,wx,3.25,wz,MAT.treeTrunk);
+    for(var br=0;br<9;br++){
+      var a=br*Math.PI*2/9, rr=2.6;
+      var bx=wx+Math.cos(a)*rr, bz=wz+Math.sin(a)*rr;
+      box(g,0.12,4.2,0.12,bx,5.2,bz,M(0x6f9a4a,1),{rz:Math.cos(a)*0.16,cast:false});
+      box(g,0.12,3.0,0.12,bx+Math.cos(a)*0.7,3.6,bz+Math.sin(a)*0.7,M(0x5d8a3e,1),{rz:Math.cos(a)*0.2,cast:false});
+    }
+  }
   return g;
 }
 

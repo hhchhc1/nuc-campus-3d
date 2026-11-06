@@ -42,7 +42,7 @@ function initScene(){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 0.92;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -52,9 +52,9 @@ function initScene(){
 
   camera = new THREE.PerspectiveCamera(45,1,0.5,4000);
 
-  hemi = new THREE.HemisphereLight(0xffffff,0x6b7a5c,1.15); scene.add(hemi);
-  ambient = new THREE.AmbientLight(0xffffff,0.28); scene.add(ambient);
-  dirLight = new THREE.DirectionalLight(0xfff2d6,1.45);
+  hemi = new THREE.HemisphereLight(0xffffff,0x6b7a5c,0.85); scene.add(hemi);
+  ambient = new THREE.AmbientLight(0xffffff,0.22); scene.add(ambient);
+  dirLight = new THREE.DirectionalLight(0xfff2d6,1.2);
   dirLight.position.set(160,240,180);
   dirLight.castShadow=true;
   dirLight.shadow.mapSize.set(1024,1024);
@@ -143,7 +143,7 @@ function animate(){
 function applyLight(mode){
   lightMode=mode;
   var cfg={
-    day:  {bg:0x8fb6cf,hemi:0xffffff,ground:0x6b7a5c,hi:1.15,amb:0.28,dir:0xfff2d6,di:1.45,pos:[160,240,180],night:false},
+    day:  {bg:0x8fb6cf,hemi:0xffffff,ground:0x6b7a5c,hi:0.85,amb:0.22,dir:0xfff2d6,di:1.2,pos:[160,240,180],night:false},
     dusk: {bg:0xd08a5e,hemi:0xffd6a4,ground:0x54402f,hi:0.85,amb:0.30,dir:0xff9a52,di:1.75,pos:[-220,90,120],night:false},
     night:{bg:0x101d2e,hemi:0x53709b,ground:0x141c22,hi:0.50,amb:0.24,dir:0x93aed8,di:0.55,pos:[-140,180,-120],night:true}
   }[mode];

@@ -36,21 +36,21 @@ function grid(prefix,label,cfg){
 }
 
 /* ---------------- 教学核心区（中部偏北） ---------------- */
-A({id:'main-building',name:'教学主楼（11号楼）',cat:'teaching',pos:[80,0,-120],size:[88,46],h:60,f:13,year:2004,
-  refKey:'main',ref:'refs/教学主楼.jpg',
-  desc:'2004 年竣工，又称 11 号教学楼，建成时为山西省体量最大、层数最高的教学楼。校园图上位于图书馆东侧、中央大道北侧，南面正对行知广场。按官网照片复刻米灰竖向窗肋、中央蓝色玻璃幕墙、楼顶红色校名与悬挑格栅帽檐、白色大雨棚柱廊及宽台阶。',
-  feat:['米灰竖向窗肋','中央蓝玻璃幕墙','楼顶红色校名','悬挑格栅帽檐','大雨棚柱廊','宽台阶']});
-A({id:'library',name:'图书馆',cat:'teaching',pos:[-20,0,-150],size:[120,62],h:28,f:6,year:2006,
-  refKey:'lib1',ref:'refs/图书馆-正面.jpg',
-  desc:'2002 年始建、2006 年竣工，约 4.67 万平方米，华北地区规模最大的高校图书馆之一。校园图上位于教学主楼西侧、田径运动场东北。造型取展开的书卷：左右两个弧形竖肋体量、中部蓝色玻璃中庭、顶部白色空间钢桁架玻璃屋面。',
-  feat:['双弧形书卷体量','深绿玻璃竖缝','蓝色玻璃中庭','钢桁架屋面','黑色石材基座']});
-A({id:'hongxue-12',name:'12号楼（鸿学楼）',cat:'teaching',pos:[-150,0,-160],size:[52,22],h:22,f:6,year:1995,style:'teach-slab',
+A({id:'main-building',name:'教学主楼（11号楼）',cat:'teaching',pos:[60,0,-112],size:[54,38],h:62,f:15,year:2004,
+  refKey:'mainUp',ref:'refs/主楼仰视.jpg',
+  desc:'2004 年竣工，又称 11 号教学楼，建筑面积 49958 ㎡（校档案馆），建成时为山西省体量最大、层数最高的教学楼，矗立于行知广场北侧。按实拍复刻米灰塔楼、密集竖向窄窗、左侧银色外挂圆筒、正面银色金属格栅、顶部悬挑帽檐与红色「中北大学」、白色大雨棚方柱门廊。',
+  feat:['塔式密窄窗立面','银色外挂圆筒','正面银色格栅','悬挑帽檐红字','方柱门廊','蓝玻璃中庭']});
+A({id:'library',name:'图书馆',cat:'teaching',pos:[-35,0,-105],size:[110,50],h:26,f:5,year:2005,
+  refKey:'track',ref:'refs/操场主楼图书馆.jpg',
+  desc:'2005 年竣工，建筑面积 34606.78 ㎡（校档案馆），华北地区规模最大的高校图书馆之一。从田径场向北望，图书馆在左、教学主楼在右，东西并列。造型取展开的书卷：两个米白竖肋弧形体量、深玻璃竖缝、中部蓝色玻璃中庭、顶部白色三角钢桁架挑檐，馆前垂柳成行。',
+  feat:['双弧形书卷体量','米白竖肋+深玻璃','三角钢桁架挑檐','蓝色玻璃中庭','馆前垂柳']});
+A({id:'hongxue-12',name:'12号楼（鸿学楼）',cat:'teaching',pos:[-145,0,-160],size:[52,22],h:22,f:6,year:1995,style:'teach-slab',
   desc:'12 号教学楼，又名鸿学楼，原老图书馆，现为音乐系等单位使用。校园图上在图书馆西侧。',feat:['原老图书馆','古典窗套','中部入口']});
-A({id:'ruixue',name:'瑞学楼',cat:'teaching',pos:[-20,0,-215],size:[56,22],h:20,f:5,year:2000,style:'teach-slab',
+A({id:'ruixue',name:'瑞学楼',cat:'teaching',pos:[-45,0,-205],size:[56,22],h:20,f:5,year:2000,style:'teach-slab',
   desc:'瑞学楼，位于图书馆北侧、9 号实验大楼西侧的教学楼。',feat:['板式教学楼','规则窗格']});
-A({id:'exp-9',name:'9号楼（实验教学楼）',cat:'teaching',pos:[80,0,-205],size:[70,26],h:29,f:7,year:2000,style:'teach-glass',
+A({id:'exp-9',name:'9号楼（实验教学楼）',cat:'teaching',pos:[60,0,-205],size:[70,26],h:29,f:7,year:2000,style:'teach-glass',
   desc:'9 号楼又名实验教学楼，位于 1 号楼正后方，是大学物理等基础实验教学的主要场地。',feat:['实验楼大体量','竖向线条','屋顶设备层']});
-A({id:'huixue-1',name:'1号楼（慧学楼）',cat:'teaching',pos:[160,0,-205],size:[52,20],h:18,f:5,year:1990,style:'teach-slab',
+A({id:'huixue-1',name:'1号楼（慧学楼）',cat:'teaching',pos:[150,0,-190],size:[52,20],h:18,f:5,year:1990,style:'teach-slab',
   desc:'1 号楼又名慧学楼，位于主楼与东区之间中央大道北侧，紧邻旧 1 号楼；多用于小班课与大一工程制图绘图课。',feat:['小班教学楼','规则开间']});
 A({id:'old-1',name:'旧1号楼（J1）',cat:'teaching',pos:[160,0,-170],size:[30,14],h:8,f:2,year:1980,style:'teach-slab',
   desc:'紧邻慧学楼的两层旧教学楼，仅三个教室，是校园里保留的早期教学建筑。',feat:['两层小楼','早期建筑']});
@@ -71,8 +71,8 @@ A({id:'teaching-18',name:'教学楼18号楼',cat:'teaching',pos:[165,0,-185],siz
 A({id:'dehuai-square',name:'德怀广场 · 彭德怀骑马铜像',cat:'landmark',pos:[-200,0,235],size:[76,76],h:12,year:2010,
   desc:'校园图上位于西南角一道门内侧，圆形广场中央为 2010 年落成的 7.6 米「横刀立马」彭德怀骑马青铜塑像，四角由 7 号楼德怀楼的四翼环抱。',
   feat:['圆形广场','骑马铜像','四翼环抱','一道门对景']});
-A({id:'dehuai-building',name:'德怀楼（7号楼·四翼）',cat:'teaching',pos:[-200,0,235],size:[112,96],h:22,f:6,year:1990,
-  refKey:'dehuai',ref:'refs/德怀楼.jpg',
+A({id:'dehuai-building',name:'德怀楼（7号楼）',cat:'teaching',pos:[-200,0,235],size:[82,30],h:36,f:10,year:1990,
+  refKey:'south',ref:'refs/南门.jpg',
   desc:'以彭德怀元帅命名的 7 号楼，校园图上呈四翼环绕德怀广场的布局。官网照片显示主楼为白色高层、中央黑色玻璃竖带、左侧横向带窗翼楼与低层裙房。',
   feat:['四翼围合广场','白色高层','中央黑玻璃竖带','横窗翼楼','低层裙房']});
 A({id:'gongzi-2',name:'2号楼（工字楼）',cat:'teaching',pos:[-215,0,110],size:[48,26],h:16,f:4,year:1980,style:'teach-slab',
@@ -122,7 +122,7 @@ A({id:'campus-street',name:'小吃街（一道门—七道门）',cat:'life',pos
   feat:['连续商铺','一层店招','骑楼雨棚']});
 
 /* ---------------- 中部：广场 / 体育场 ---------------- */
-A({id:'xingzhi-square',name:'行知广场',cat:'landmark',pos:[80,0,-35],size:[86,58],h:16,year:2004,
+A({id:'xingzhi-square',name:'行知广场',cat:'landmark',pos:[60,0,-35],size:[86,58],h:16,year:2004,
   desc:'教学主楼前侧的核心广场，校园图上标为迎新广场，中央有大星形铺装；文艺演出、社团招新常在此举行，南侧设跨越铁路的地下通道。',
   feat:['主楼前广场','星形铺装','国旗杆','阶梯花坛','地下通道口']});
 A({id:'stadium',name:'真草坪体育场（田径运动场）',cat:'sport',pos:[-110,0,-30],size:[168,104],h:12,year:2000,
@@ -135,7 +135,7 @@ A({id:'swimming',name:'游泳馆 / 健身馆',cat:'sport',pos:[10,0,-250],size:[
   refKey:'swim',ref:'refs/游泳馆.jpg',
   desc:'游泳是中北学子的必修课。官网照片显示馆内为拱形钢桁架屋面下的标准泳池，外部为大跨度拱顶建筑。',
   feat:['拱形钢桁架','大跨空间','标准泳池']});
-A({id:'basketball',name:'篮球场群',cat:'sport',pos:[-25,0,-75],size:[74,52],h:9,year:2005,
+A({id:'basketball',name:'篮球场群',cat:'sport',pos:[5,0,-58],size:[74,52],h:9,year:2005,
   desc:'校园图位于体育馆东侧、行知广场西侧的多片篮球场，含场地划线、篮架与围网。',feat:['多片场地','篮架','围网']});
 A({id:'football-north',name:'北区足球场',cat:'sport',pos:[255,0,-230],size:[100,64],h:6,year:2005,style:'football',
   desc:'校园东北部的足球场与排球场，位于科学楼与兵器陈列馆之间。',feat:['足球场','排球场','围网']});
@@ -202,15 +202,16 @@ A({id:'underground-pass',name:'铁路地下通道',cat:'landmark',pos:[80,0,105]
   desc:'行知广场南侧跨越铁路的地下通道，连接铁路南北两侧的教学区与生活区。',feat:['地下通道口','台阶','雨棚']});
 
 /* ---------------- 园林与历史建筑 ---------------- */
-A({id:'red-houses',name:'红房子（老建筑群）',cat:'landscape',pos:[-120,0,-60],size:[72,46],h:12,f:2,year:1955,
+A({id:'red-houses',name:'红房子（老建筑群）',cat:'landscape',pos:[-190,0,-100],size:[72,46],h:12,f:2,year:1955,
   desc:'建于二十世纪五六十年代的红砖建筑群，见证从太原机械学院、华北工学院到中北大学的校史变迁。',feat:['红砖墙','灰瓦坡顶','低层院落']});
-A({id:'gezilou',name:'阁子楼',cat:'landscape',pos:[-185,0,-30],size:[44,22],h:13,f:2,year:1950,
+A({id:'gezilou',name:'阁子楼',cat:'landscape',pos:[-215,0,-20],size:[44,22],h:13,f:2,year:1950,
   refKey:'gezi',ref:'refs/阁子楼.jpg',
   desc:'学校最老的一批建筑之一。官网照片为两栋对称的红砖两层小楼，各带三角山墙与白色窗框，楼前是牡丹花圃。',
   feat:['对称双楼','红砖','三角山墙','白窗框','牡丹花圃']});
 
 /* ---------------- 七道门与出入口 ---------------- */
-A({id:'south-gate',name:'一道门（正门）',cat:'landmark',pos:[-200,0,290],size:[34,8],h:12,year:2000,style:'gate-main',
+A({id:'south-gate',name:'一道门（南门 · 校名石广场）',cat:'landmark',pos:[-200,0,290],size:[40,14],h:9,year:2000,style:'gate-south',
+  refKey:'south',ref:'refs/南门.jpg',
   desc:'中北大学一道门为学校正大门，位于校园西南、正对德怀楼与德怀广场，门外有 835 路公交站。',feat:['双门柱','横梁校名','校名石','门区铺装']});
 A({id:'gate-2',name:'二道门',cat:'landmark',pos:[-140,0,100],size:[20,6],h:8,year:1990,style:'gate-small',
   desc:'二道门是十字路口，毗邻五院宿舍与小吃街最西端，也是去逸夫楼的途径之一；过铁路后向北分叉通往西侧宿舍区。',feat:['路口门','铁路道口']});
@@ -224,12 +225,28 @@ A({id:'gate-6',name:'六道门',cat:'landmark',pos:[250,0,70],size:[20,6],h:8,ye
   desc:'六道门，位于小吃街东端、东环路附近。',feat:['东部门户']});
 A({id:'gate-7',name:'七道门',cat:'landmark',pos:[305,0,55],size:[20,6],h:8,year:1990,style:'gate-small',
   desc:'七道门与兰村相连，2024 年学校曾实施「七道门恢复和一道门改造」工程。',feat:['兰村方向','东部门户']});
-A({id:'east-gate',name:'东大门',cat:'landmark',pos:[325,0,-170],size:[26,8],h:9,year:2010,style:'gate-main',
+A({id:'east-gate',name:'东门（门式连体楼）',cat:'landmark',pos:[325,0,-170],size:[120,34],h:30,f:6,year:2015,style:'gate-east',
+  refKey:'east',ref:'refs/东门.jpg',
   desc:'校园东侧主出入口，校园图上标注门高 6.65 米，设有车辆管理设施。',feat:['东侧主门','门区广场','车辆通道']});
 A({id:'gate-8',name:'八道门（应急出口）',cat:'landmark',pos:[320,0,-275],size:[16,6],h:7,year:2010,style:'gate-small',
   desc:'校园东北侧的应急出口。',feat:['应急出口']});
 A({id:'gate-9',name:'九道门（应急出口）',cat:'landmark',pos:[-300,0,-265],size:[16,6],h:7,year:2010,style:'gate-small',
   desc:'校园西北侧、二龙山北端的应急出口。',feat:['应急出口']});
+
+
+/* ---------------- 实拍补充：航空宇航学院与歼击机陈列 ---------------- */
+A({id:'aerospace-college',name:'航空宇航学院',cat:'teaching',pos:[210,0,-40],size:[64,30],h:20,f:4,year:2015,
+  refKey:'aero',ref:'refs/航空宇航学院.jpg',style:'aerospace',
+  desc:'航空宇航学院楼，赓续学校导弹设计、火箭发动机与飞行器制造等国防学科。实拍显示上部为白色框架格栅与采光天窗，中段密集白色竖肋窗格，黑色石材横带上为金色「航空宇航学院」字样，底层是凹入的蓝色玻璃入口大厅；楼前广场陈列一架退役歼-6 超音速歼击机（编号 51686）。',
+  feat:['白色框架格栅顶','密集竖肋窗','黑石材金字横带','凹入玻璃入口','门前歼击机','围栏草坪']});
+A({id:'jet-fighter',name:'歼-6 歼击机陈列',cat:'landmark',pos:[210,0,-14],size:[17,11],h:5,year:0,
+  refKey:'aero',ref:'refs/航空宇航学院.jpg',style:'jet',
+  desc:'摆在航空宇航学院楼前广场的退役歼-6 真机，是我国第一款超音速歼击机（仿米格-19），机身银色、编号 51686，配红色围栏与说明牌，是校园国防教育的标志性展品。',
+  feat:['银色机身','后掠三角翼','高尾翼','编号51686','红色围栏']});
+A({id:'east-slogan',name:'东门「为党育人 为国育才 为军铸器」',cat:'landmark',pos:[325,0,-135],size:[54,4],h:4,year:2020,
+  refKey:'east',ref:'refs/东门.jpg',style:'slogan',
+  desc:'东门门楼前广场上的红色立体大字，凝练学校「人民兵工第一校」的办学使命：为党育人、为国育才、为军铸器。',
+  feat:['红色立体字','十二字标语','深色石材广场']});
 
 /* ---------------- 配套构件 ---------------- */
 A({id:'street-lamp',name:'校园路灯',cat:'props',pos:[0,0,0],size:[3,1],h:7,style:'lamp',

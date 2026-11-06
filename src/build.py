@@ -63,6 +63,9 @@ REF_FILES = {
     "dehuai":   "德怀楼",   "yifu": "逸夫楼",       "keyi": "科艺苑",
     "exchange": "学术交流中心", "advanced": "先进制造中心", "gezi": "阁子楼",
     "stadium":  "真草坪体育场", "swim": "游泳馆",
+    "mainUp":   "主楼仰视", "track": "操场主楼图书馆", "south": "南门",
+    "east":     "东门", "aero": "航空宇航学院", "avenue": "图书馆前林荫路",
+    "track2":   "田径场看图书馆主楼",
 }
 refs = {}
 for key, name in REF_FILES.items():
